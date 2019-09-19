@@ -1,0 +1,30 @@
+{extend name="base" /}
+
+{block name="title"}{$title}{/block}
+
+{block name="menu"}
+<a href="/" >首页</a>
+<a href="#info" >资讯</a>
+<a href="#bbs" >论坛</a>
+{/block}
+
+{block name="left"}{/block}
+
+{block name="main"}
+{volist name="list" id="vo"}
+<a href="/new/{$vo.id}">{$vo.title}</a><br/>
+ {$vo.content}
+{/volist}
+{/block}
+
+{block name="right"}
+ 最新资讯：
+{volist name="news" id="new"}
+<a href="/new/{$new.id}">{$new.title}</a><br/>
+{/volist}
+{/block}
+
+{block name="footer"}
+{__block__}
+ @ThinkPHP 版权所有
+{/block}

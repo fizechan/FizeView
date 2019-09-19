@@ -1,0 +1,7 @@
+/vendor/
+/.idea
+/composer.lock
+/test/blade/runtime
+/test/think/runtime
+/test/smarty/runtime
+/test/twig/runtime
