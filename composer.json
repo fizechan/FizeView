@@ -1,6 +1,6 @@
 {
     "name": "fize/view",
-    "description": "想使用哪个模板引擎随便你. produced by FizeChan.",
+    "description": "模板引擎框架，集结世面主流的模板引擎，想使用哪个模板引擎随便你.",
     "license": "Apache-2.0",
     "authors": [
         {
