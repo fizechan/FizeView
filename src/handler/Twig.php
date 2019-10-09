@@ -51,7 +51,7 @@ class Twig implements ViewHandler
     }
 
     /**
-     * 获取底部引擎对象
+     * 获取底层引擎对象
      * @return mixed
      */
     public function engine()
