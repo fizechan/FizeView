@@ -6,6 +6,7 @@ namespace fize\view\handler;
 use fize\view\ViewHandler;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+use fize\io\Directory;
 
 /**
  * Twig引擎
@@ -41,6 +42,7 @@ class Twig implements ViewHandler
             'cache'  => './runtime'
         ];
         $config = array_merge($default, $config);
+        Directory::createDirectory($config['path'], 0777, true);
         $loader = new FilesystemLoader($config['path']);
         unset($config['path']);
         $this->suffix = $config['suffix'];
