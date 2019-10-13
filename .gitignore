@@ -1,7 +1,7 @@
 /vendor/
 /.idea
 /composer.lock
-/test/blade/runtime
-/test/think/runtime
-/test/smarty/runtime
-/test/twig/runtime
+/examples/blade/runtime
+/examples/think/runtime
+/examples/smarty/runtime
+/examples/twig/runtime
