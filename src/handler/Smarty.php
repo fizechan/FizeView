@@ -9,7 +9,6 @@ use Smarty as Engine;
 
 /**
  * Smarty引擎
- * @package fize\view\handler
  */
 class Smarty implements ViewHandler
 {

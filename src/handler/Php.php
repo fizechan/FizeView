@@ -7,7 +7,6 @@ use fize\view\ViewHandler;
 
 /**
  * PHP引擎
- * @package fize\view\handler
  */
 class Php implements ViewHandler
 {

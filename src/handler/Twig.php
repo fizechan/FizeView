@@ -10,7 +10,6 @@ use fize\io\Directory;
 
 /**
  * Twig引擎
- * @package fize\view\handler
  */
 class Twig implements ViewHandler
 {

@@ -17,7 +17,6 @@ use Illuminate\View\Factory;
 
 /**
  * Blade引擎
- * @package fize\view\handler
  */
 class Blade implements ViewHandler
 {
@@ -49,8 +48,8 @@ class Blade implements ViewHandler
     public function __construct(array $config = [])
     {
         $default = [
-            'path'   => './view',
-            'cache'  => './runtime'
+            'path'  => './view',
+            'cache' => './runtime'
         ];
         $config = array_merge($default, $config);
         $config['path'] = is_array($config['path']) ? $config['path'] : [$config['path']];
@@ -70,7 +69,7 @@ class Blade implements ViewHandler
      */
     protected function registerFilesystem()
     {
-        $this->container->singleton('files', function(){
+        $this->container->singleton('files', function () {
             return new Filesystem();
         });
     }
@@ -81,7 +80,7 @@ class Blade implements ViewHandler
      */
     protected function registerEvents(Dispatcher $events)
     {
-        $this->container->singleton('events', function() use ($events) {
+        $this->container->singleton('events', function () use ($events) {
             return $events;
         });
     }
@@ -92,12 +91,10 @@ class Blade implements ViewHandler
     protected function registerEngineResolver()
     {
         $me = $this;
-        $this->container->singleton('view.engine.resolver', function() use ($me)
-        {
+        $this->container->singleton('view.engine.resolver', function () use ($me) {
             $resolver = new EngineResolver();
-            foreach (array('php', 'blade') as $engine)
-            {
-                $me->{'register'.ucfirst($engine).'Engine'}($resolver);
+            foreach (array('php', 'blade') as $engine) {
+                $me->{'register' . ucfirst($engine) . 'Engine'}($resolver);
             }
             return $resolver;
         });
@@ -109,7 +106,7 @@ class Blade implements ViewHandler
      */
     protected function registerPhpEngine(EngineResolver $resolver)
     {
-        $resolver->register('php', function() {
+        $resolver->register('php', function () {
             return new PhpEngine();
         });
     }
@@ -122,14 +119,11 @@ class Blade implements ViewHandler
     {
         $me = $this;
         $app = $this->container;
-        $this->container->singleton('blade.compiler', function($app) use ($me)
-        {
+        $this->container->singleton('blade.compiler', function ($app) use ($me) {
             $cache = $me->config['cache'];
             return new BladeCompiler($app['files'], $cache);
         });
-        $resolver->register('blade', function() use ($app)
-        {
-            //return new CompilerEngine($app['blade.compiler'], $app['files']);
+        $resolver->register('blade', function () use ($app) {
             return new CompilerEngine($app['blade.compiler']);
         });
     }
@@ -140,8 +134,7 @@ class Blade implements ViewHandler
     protected function registerViewFinder()
     {
         $me = $this;
-        $this->container->singleton('view.finder', function($app) use ($me)
-        {
+        $this->container->singleton('view.finder', function ($app) use ($me) {
             $paths = $me->config['path'];
             return new FileViewFinder($app['files'], $paths);
         });
@@ -187,7 +180,7 @@ class Blade implements ViewHandler
      */
     public function render($path, array $assigns = [])
     {
-        if($assigns) {
+        if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }

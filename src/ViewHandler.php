@@ -5,7 +5,6 @@ namespace fize\view;
 
 /**
  * 视图接口
- * @package fize\view
  */
 interface ViewHandler
 {

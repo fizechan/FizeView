@@ -8,7 +8,6 @@ use think\Template;
 
 /**
  * Think引擎
- * @package fize\view\handler
  */
 class Think implements ViewHandler
 {
