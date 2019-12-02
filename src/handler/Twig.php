@@ -36,14 +36,14 @@ class Twig implements ViewHandler
     public function __construct(array $config = [])
     {
         $default = [
-            'path'   => './view',
+            'view'   => './view',
             'suffix' => 'twig',
             'cache'  => './runtime'
         ];
         $config = array_merge($default, $config);
-        Directory::createDirectory($config['path'], 0777, true);
-        $loader = new FilesystemLoader($config['path']);
-        unset($config['path']);
+        Directory::createDirectory($config['view'], 0777, true);
+        $loader = new FilesystemLoader($config['view']);
+        unset($config['view']);
         $this->suffix = $config['suffix'];
         unset($config['suffix']);
         $this->engine = new Environment($loader, $config);

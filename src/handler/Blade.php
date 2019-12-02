@@ -48,11 +48,11 @@ class Blade implements ViewHandler
     public function __construct(array $config = [])
     {
         $default = [
-            'path'  => './view',
+            'view'  => './view',
             'cache' => './runtime'
         ];
         $config = array_merge($default, $config);
-        $config['path'] = is_array($config['path']) ? $config['path'] : [$config['path']];
+        $config['view'] = is_array($config['view']) ? $config['view'] : [$config['view']];
         $this->config = $config;
 
         $this->container = new Container();
@@ -135,7 +135,7 @@ class Blade implements ViewHandler
     {
         $me = $this;
         $this->container->singleton('view.finder', function ($app) use ($me) {
-            $paths = $me->config['path'];
+            $paths = $me->config['view'];
             return new FileViewFinder($app['files'], $paths);
         });
     }

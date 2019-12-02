@@ -28,7 +28,7 @@ class Php implements ViewHandler
     public function __construct(array $config = [])
     {
         $default = [
-            'path'   => './view',
+            'view'   => './view',
             'suffix' => 'php'
         ];
         $this->config = array_merge($default, $config);
@@ -68,7 +68,7 @@ class Php implements ViewHandler
             }
         }
         extract($this->assigns);
-        $full_path = $this->config['path'] . '/' . $path . '.' . $this->config['suffix'];
+        $full_path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
         require_once $full_path;
         return ob_get_clean();
     }
