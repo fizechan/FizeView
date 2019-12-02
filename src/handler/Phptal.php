@@ -4,7 +4,7 @@
 namespace fize\view\handler;
 
 /**
- * Class Phptal
+ * Phptal
  * @see https://github.com/phptal/PHPTAL/tree/master/tests
  */
 class Phptal

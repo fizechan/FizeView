@@ -16,7 +16,7 @@ use Illuminate\View\Factory;
 
 
 /**
- * Blade引擎
+ * Blade
  */
 class Blade implements ViewHandler
 {

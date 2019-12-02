@@ -4,7 +4,7 @@
 namespace fize\view\handler;
 
 /**
- * Class Liquid
+ * Liquid
  * @see https://github.com/harrydeluxe/php-liquid
  */
 class Liquid

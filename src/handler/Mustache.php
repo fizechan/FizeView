@@ -4,7 +4,7 @@
 namespace fize\view\handler;
 
 /**
- * Class Mustache
+ * Mustache
  * @see https://packagist.org/packages/mustache/mustache
  */
 class Mustache

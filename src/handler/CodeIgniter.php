@@ -4,7 +4,7 @@
 namespace fize\view\handler;
 
 /**
- * Class CodeIgniter
+ * CodeIgniter
  */
 class CodeIgniter
 {

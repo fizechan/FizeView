@@ -9,7 +9,7 @@ use Twig\Environment;
 use fize\io\Directory;
 
 /**
- * Twig引擎
+ * Twig
  */
 class Twig implements ViewHandler
 {

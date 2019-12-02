@@ -7,7 +7,7 @@ use fize\view\ViewHandler;
 use think\Template;
 
 /**
- * Think引擎
+ * Think
  */
 class Think implements ViewHandler
 {

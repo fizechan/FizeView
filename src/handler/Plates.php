@@ -4,7 +4,7 @@
 namespace fize\view\handler;
 
 /**
- * Class Plates
+ * Plates
  * @see https://packagist.org/packages/league/plates
  */
 class Plates

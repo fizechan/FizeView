@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpIncludeInspection */
+<?php
 
 
 namespace fize\view\handler;
@@ -6,7 +6,7 @@ namespace fize\view\handler;
 use fize\view\ViewHandler;
 
 /**
- * PHP引擎
+ * PHP
  */
 class Php implements ViewHandler
 {
@@ -58,6 +58,7 @@ class Php implements ViewHandler
      * @param string $path 模板文件路径
      * @param array $assigns 指定变量赋值
      * @return string
+     * @noinspection PhpIncludeInspection
      */
     public function render($path, array $assigns = [])
     {

@@ -8,7 +8,7 @@ use Smarty as Engine;
 
 
 /**
- * Smarty引擎
+ * Smarty
  */
 class Smarty implements ViewHandler
 {

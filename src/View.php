@@ -10,7 +10,7 @@ class View
 {
 
     /**
-     * @var ViewHandler
+     * @var ViewHandler 模板引擎
      */
     protected static $view;
 
@@ -20,17 +20,15 @@ class View
     protected static $path;
 
     /**
-     * @var ViewHandler
+     * 构造方法
+     *
+     * 在构造方法中设置默认引擎
+     * @param string $handler 处理器
+     * @param array $config 参数配置
      */
-    private static $handler;
-
-    /**
-     * 在构造方法中设置静态属性
-     * @param array $config 配置项
-     */
-    public function __construct(array $config)
+    public function __construct($handler, array $config = [])
     {
-        self::$view = self::getInstance($config['handler'], $config['config']);
+        self::$view = self::getInstance($handler, $config);
     }
 
     /**
@@ -90,18 +88,15 @@ class View
     }
 
     /**
-     * 取得单例
-     * @param string $driver 驱动
+     * 取得实例
+     * @param string $handler 处理器
      * @param array $config 参数配置
      * @return ViewHandler
      */
-    public static function getInstance($driver, array $config = [])
+    public static function getInstance($handler, array $config = [])
     {
-        if (empty(self::$handler)) {
-            $class = '\\' . __NAMESPACE__ . '\\handler\\' . $driver;
-            self::$handler = new $class($config);
-        }
-        return self::$handler;
+        $class = '\\' . __NAMESPACE__ . '\\handler\\' . $handler;
+        return new $class($config);
     }
 
 }

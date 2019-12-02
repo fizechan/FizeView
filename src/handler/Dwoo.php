@@ -4,7 +4,7 @@
 namespace fize\view\handler;
 
 /**
- * Class Dwoo
+ * Dwoo
  * @see http://dwoo.org/
  */
 class Dwoo

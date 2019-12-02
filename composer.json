@@ -1,7 +1,7 @@
 {
     "name": "fize/view",
-    "description": "模板引擎框架，集结世面主流的模板引擎，想使用哪个模板引擎随便你.",
-    "license": "Apache-2.0",
+    "description": "模板引擎框架，集结世面主流的模板引擎，想使用哪个模板引擎随便你。",
+    "license": "MIT",
     "authors": [
         {
             "name": "FizeChan",
@@ -10,7 +10,7 @@
     ],
     "require": {
 		"php": ">=5.4.0",
-        "fize/io": "~3.2"
+        "fize/io": "~3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.0.0",

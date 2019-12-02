@@ -4,7 +4,7 @@
 namespace fize\view\handler;
 
 /**
- * Class TinyButStrong
+ * TinyButStrong
  * @see https://www.tinybutstrong.com/
  */
 class TinyButStrong
