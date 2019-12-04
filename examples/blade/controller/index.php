@@ -5,7 +5,7 @@ require_once "../../../vendor/autoload.php";
 use fize\view\View;
 
 $config = [
-    'path'  => '../view/',
+    'view'  => '../view/',
     'cache' => '../runtime/',
 ];
 $view = View::getInstance('Blade', $config);

@@ -5,12 +5,13 @@ require_once "../../../vendor/autoload.php";
 use fize\view\View;
 
 $config = [
-    'path'   => '../view',
+    'view'   => '../view',
     'cache' => '../runtime',
     'debug'  => true
 ];
-$view = View::getInstance('Twig', $config);
+
+new View('Twig', $config);
 
 $assigns = ['data' => ['name' => 'evai', 'mobile' => 12345678910]];
 
-$view->display('index', $assigns);
+View::display('index', $assigns);

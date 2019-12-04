@@ -6,3 +6,4 @@
 /examples/smarty/runtime
 /examples/twig/runtime
 /temp
+/.phpunit.result.cache
