@@ -22,7 +22,7 @@ class Twig implements ViewHandler
     /**
      * @var array 变量
      */
-    private $assigns;
+    private $assigns = [];
 
     /**
      * @var string 模板后缀

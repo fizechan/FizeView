@@ -29,7 +29,7 @@ class Blade implements ViewHandler
     /**
      * @var array 变量
      */
-    private $assigns;
+    private $assigns = [];
 
     /**
      * @var Container
