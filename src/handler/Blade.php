@@ -3,7 +3,6 @@
 
 namespace fize\view\handler;
 
-use fize\view\ViewHandler;
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
@@ -13,7 +12,7 @@ use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\FileViewFinder;
 use Illuminate\View\Factory;
-
+use fize\view\ViewHandler;
 
 /**
  * Blade
@@ -42,7 +41,7 @@ class Blade implements ViewHandler
     private $config;
 
     /**
-     * 初始化模板
+     * 初始化
      * @param array $config 配置
      */
     public function __construct(array $config = [])

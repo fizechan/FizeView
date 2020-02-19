@@ -3,8 +3,8 @@
 
 namespace fize\view\handler;
 
-use fize\view\ViewHandler;
 use think\Template;
+use fize\view\ViewHandler;
 
 /**
  * Think
@@ -33,7 +33,7 @@ class Think implements ViewHandler
 
     /**
      * 获取底部引擎对象
-     * @return mixed
+     * @return Template
      */
     public function engine()
     {

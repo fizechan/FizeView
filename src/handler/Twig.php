@@ -3,10 +3,10 @@
 
 namespace fize\view\handler;
 
-use fize\view\ViewHandler;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use fize\io\Directory;
+use fize\view\ViewHandler;
 
 /**
  * Twig
@@ -30,7 +30,7 @@ class Twig implements ViewHandler
     private $suffix;
 
     /**
-     * 初始化模板
+     * 初始化
      * @param array $config 配置
      */
     public function __construct(array $config = [])

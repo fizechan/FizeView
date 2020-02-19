@@ -93,7 +93,7 @@ class View
      * @param array $config 参数配置
      * @return ViewHandler
      */
-    public static function getInstance($handler, array $config = [])
+    private static function getInstance($handler, array $config = [])
     {
         $class = '\\' . __NAMESPACE__ . '\\handler\\' . $handler;
         return new $class($config);

@@ -3,8 +3,8 @@
 
 namespace fize\view\handler;
 
+use Smarty as SmartyEngine;
 use fize\view\ViewHandler;
-use Smarty as Engine;
 
 
 /**
@@ -14,7 +14,7 @@ class Smarty implements ViewHandler
 {
 
     /**
-     * @var Engine Smarty引擎
+     * @var SmartyEngine Smarty引擎
      */
     private $engine;
 
@@ -50,7 +50,7 @@ class Smarty implements ViewHandler
         $this->suffix = $config['suffix'];
         unset($config['suffix']);
 
-        $this->engine = new Engine();
+        $this->engine = new SmartyEngine();
         foreach ($config as $key => $value) {
             $this->engine->$key = $value;
         }
@@ -58,7 +58,7 @@ class Smarty implements ViewHandler
 
     /**
      * 获取底部引擎对象
-     * @return mixed
+     * @return SmartyEngine
      */
     public function engine()
     {

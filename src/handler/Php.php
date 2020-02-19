@@ -62,7 +62,7 @@ class Php implements ViewHandler
      */
     public function render($path, array $assigns = [])
     {
-        if($assigns) {
+        if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
