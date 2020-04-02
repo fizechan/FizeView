@@ -16,6 +16,7 @@ use fize\view\ViewHandler;
 
 /**
  * Blade
+ * composer require illuminate/view
  */
 class Blade implements ViewHandler
 {
@@ -31,7 +32,7 @@ class Blade implements ViewHandler
     private $assigns = [];
 
     /**
-     * @var Container
+     * @var Container 容器
      */
     protected $container;
 
@@ -44,13 +45,13 @@ class Blade implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
-        $default = [
+        $default_config = [
             'view'  => './view',
             'cache' => './runtime'
         ];
-        $config = array_merge($default, $config);
+        $config = array_merge($default_config, $config);
         $config['view'] = is_array($config['view']) ? $config['view'] : [$config['view']];
         $this->config = $config;
 
@@ -92,7 +93,7 @@ class Blade implements ViewHandler
         $me = $this;
         $this->container->singleton('view.engine.resolver', function () use ($me) {
             $resolver = new EngineResolver();
-            foreach (array('php', 'blade') as $engine) {
+            foreach (['php', 'blade'] as $engine) {
                 $me->{'register' . ucfirst($engine) . 'Engine'}($resolver);
             }
             return $resolver;
@@ -101,7 +102,7 @@ class Blade implements ViewHandler
 
     /**
      * 注册PHP引擎
-     * @param EngineResolver $resolver
+     * @param EngineResolver $resolver 引擎注册器
      */
     protected function registerPhpEngine(EngineResolver $resolver)
     {
@@ -112,7 +113,7 @@ class Blade implements ViewHandler
 
     /**
      * 注册Blade引擎
-     * @param EngineResolver $resolver
+     * @param EngineResolver $resolver 引擎注册器
      */
     protected function registerBladeEngine(EngineResolver $resolver)
     {
@@ -154,7 +155,7 @@ class Blade implements ViewHandler
 
     /**
      * 获取底部引擎对象
-     * @return mixed
+     * @return Factory
      */
     public function engine()
     {
@@ -163,8 +164,8 @@ class Blade implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
@@ -173,11 +174,11 @@ class Blade implements ViewHandler
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {
@@ -189,10 +190,11 @@ class Blade implements ViewHandler
 
     /**
      * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
+     * @deprecated 使用render方法统一调用即可
      */
-    public function display($path, array $assigns = [])
+    public function display($path, $assigns = [])
     {
         echo $this->render($path, $assigns);
     }

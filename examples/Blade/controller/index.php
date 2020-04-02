@@ -8,9 +8,9 @@ $config = [
     'view'  => '../view/',
     'cache' => '../runtime/',
 ];
-$view = View::getInstance('Blade', $config);
+new View('Blade', $config);
 
-$view->assign('title', '这是标题！~');
+View::assign('title', '这是标题！~');
 
 $list = [
     [
@@ -29,7 +29,7 @@ $list = [
         'content' => '厉害了厉害了！~3'
     ]
 ];
-$view->assign('list', $list);
+View::assign('list', $list);
 
 $news = [
     [
@@ -41,6 +41,6 @@ $news = [
         'title' => '厉害了我的国5'
     ]
 ];
-$view->assign('news', $news);
+View::assign('news', $news);
 
-$view->display('index');
+echo View::render('index');

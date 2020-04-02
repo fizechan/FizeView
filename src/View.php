@@ -20,13 +20,11 @@ class View
     protected static $path;
 
     /**
-     * 构造方法
-     *
-     * 在构造方法中设置默认引擎
+     * 构造
      * @param string $handler 处理器
      * @param array $config 参数配置
      */
-    public function __construct($handler, array $config = [])
+    public function __construct($handler, $config = [])
     {
         self::$view = self::getInstance($handler, $config);
     }
@@ -65,7 +63,7 @@ class View
      * @param array $assigns 指定变量赋值
      * @return string
      */
-    public static function render($path = null, array $assigns = [])
+    public static function render($path = null, $assigns = [])
     {
         if ($path) {
             self::path($path);
@@ -79,7 +77,7 @@ class View
      * @param string $path 模板文件路径
      * @param array $assigns 指定变量赋值
      */
-    public static function display($path = null, array $assigns = [])
+    public static function display($path = null, $assigns = [])
     {
         if ($path) {
             self::path($path);
@@ -93,7 +91,7 @@ class View
      * @param array $config 参数配置
      * @return ViewHandler
      */
-    private static function getInstance($handler, array $config = [])
+    private static function getInstance($handler, $config = [])
     {
         $class = '\\' . __NAMESPACE__ . '\\handler\\' . $handler;
         return new $class($config);
