@@ -9,9 +9,10 @@ use fize\view\ViewHandler;
 
 /**
  * Zend
- * @see https://zendframework.github.io/zend-view/php-renderer/
+ * @see        https://zendframework.github.io/zend-view/php-renderer/
+ *      "zendframework/zend-view": "~2.11"
  * @deprecated zendframework已改名为Laminas
- * @todo 待测试
+ * @todo       待测试
  */
 class Zend implements ViewHandler
 {
@@ -47,8 +48,8 @@ class Zend implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
@@ -57,8 +58,8 @@ class Zend implements ViewHandler
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
     public function render($path, array $assigns = [])
@@ -75,8 +76,8 @@ class Zend implements ViewHandler
 
     /**
      * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      */
     public function display($path, array $assigns = [])
     {

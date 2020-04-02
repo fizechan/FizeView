@@ -1,18 +1,18 @@
 <?php
 
-
 namespace fize\view\handler;
 
-use Config\View;
+use CodeIgniter\Autoloader\Autoloader;
+use CodeIgniter\Autoloader\FileLocator;
+use CodeIgniter\Log\Logger;
 use CodeIgniter\View\Parser;
 use fize\view\ViewHandler;
 
 /**
  * CodeIgniter
- *
  * CodeIgniter4
+ * @deprecated 功能太弱，实现得太不优美了，放弃支持！
  * @see https://codeigniter4.github.io
- * @todo 待测试
  */
 class CodeIgniter implements ViewHandler
 {
@@ -31,10 +31,20 @@ class CodeIgniter implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
+        defined('CI_DEBUG') || define('CI_DEBUG', 1);
+        if (! defined('APPPATH'))
+        {
+            define('APPPATH', realpath(__DIR__ . '/..') . DIRECTORY_SEPARATOR);
+        }
+        if (! defined('SYSTEMPATH'))
+        {
+            define('SYSTEMPATH', realpath(__DIR__ . '/../../system') . DIRECTORY_SEPARATOR);
+        }
+
         $this->config = $config;
-        $view = new View();
+        $view = new ConfigView();
         if (isset($this->config['saveData'])) {
             $view->saveData = $this->config['saveData'];
         }
@@ -45,7 +55,7 @@ class CodeIgniter implements ViewHandler
             $view->plugins = $this->config['plugins'];
         }
         $viewPath = isset($this->config['viewPath']) ? $this->config['viewPath'] : null;
-        $this->engine = new Parser($view, $viewPath);
+        $this->engine = new Parser($view, $viewPath, new FileLocator(new Autoloader()), true, new Logger(new ConfigLogger()));
     }
 
     /**
@@ -59,8 +69,8 @@ class CodeIgniter implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
@@ -69,22 +79,92 @@ class CodeIgniter implements ViewHandler
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
-        return $this->engine->setData($assigns)->render($path);
+        $options = isset($this->config['options']) ? $this->config['options'] : null;
+        return $this->engine->setData($assigns)->render($path, $options);
     }
 
     /**
      * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      */
-    public function display($path, array $assigns = [])
+    public function display($path, $assigns = [])
     {
         echo $this->render($path, $assigns);
     }
+}
+
+
+class ConfigView
+{
+
+    public $saveData = true;
+
+    public $filters = [
+        'abs'            => '\abs',
+        'capitalize'     => '\CodeIgniter\View\Filters::capitalize',
+        'date'           => '\CodeIgniter\View\Filters::date',
+        'date_modify'    => '\CodeIgniter\View\Filters::date_modify',
+        'default'        => '\CodeIgniter\View\Filters::default',
+        //'esc'            => '\CodeIgniter\View\Filters::esc',
+        'excerpt'        => '\CodeIgniter\View\Filters::excerpt',
+        'highlight'      => '\CodeIgniter\View\Filters::highlight',
+        'highlight_code' => '\CodeIgniter\View\Filters::highlight_code',
+        'limit_words'    => '\CodeIgniter\View\Filters::limit_words',
+        'limit_chars'    => '\CodeIgniter\View\Filters::limit_chars',
+        'local_currency' => '\CodeIgniter\View\Filters::local_currency',
+        'local_number'   => '\CodeIgniter\View\Filters::local_number',
+        'lower'          => '\strtolower',
+        'nl2br'          => '\CodeIgniter\View\Filters::nl2br',
+        'number_format'  => '\number_format',
+        'prose'          => '\CodeIgniter\View\Filters::prose',
+        'round'          => '\CodeIgniter\View\Filters::round',
+        'strip_tags'     => '\strip_tags',
+        'title'          => '\CodeIgniter\View\Filters::title',
+        'upper'          => '\strtoupper',
+    ];
+
+    public $plugins = [
+        'current_url'       => '\CodeIgniter\View\Plugins::currentURL',
+        'previous_url'      => '\CodeIgniter\View\Plugins::previousURL',
+        'mailto'            => '\CodeIgniter\View\Plugins::mailto',
+        'safe_mailto'       => '\CodeIgniter\View\Plugins::safeMailto',
+        'lang'              => '\CodeIgniter\View\Plugins::lang',
+        'validation_errors' => '\CodeIgniter\View\Plugins::validationErrors',
+        'route'             => '\CodeIgniter\View\Plugins::route',
+        'siteURL'           => '\CodeIgniter\View\Plugins::siteURL',
+    ];
+}
+
+
+class ConfigLogger
+{
+    public $threshold = 3;
+
+    public $path = '';
+
+    public $dateFormat = 'Y-m-d H:i:s';
+
+    public $handlers = [
+        'CodeIgniter\Log\Handlers\FileHandler' => [
+            'handles'         => [
+                'critical',
+                'alert',
+                'emergency',
+                'debug',
+                'error',
+                'info',
+                'notice',
+                'warning',
+            ],
+            'fileExtension'   => '',
+            'filePermissions' => 0644,
+        ],
+    ];
 }
