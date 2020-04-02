@@ -72,20 +72,6 @@ class View
     }
 
     /**
-     * 显示渲染内容
-     * @deprecated 使用render方法统一调用即可
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public static function display($path = null, $assigns = [])
-    {
-        if ($path) {
-            self::path($path);
-        }
-        self::$view->display(self::$path, $assigns);
-    }
-
-    /**
      * 取得实例
      * @param string $handler 处理器
      * @param array $config 参数配置

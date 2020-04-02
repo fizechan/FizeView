@@ -35,12 +35,4 @@ interface ViewHandler
      * @return string
      */
     public function render($path, $assigns = []);
-
-    /**
-     * 显示渲染内容
-     * @deprecated 使用render方法统一调用即可
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public function display($path, $assigns = []);
 }
