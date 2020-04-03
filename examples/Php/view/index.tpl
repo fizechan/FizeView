@@ -8,8 +8,8 @@
     <h1>你能看到下面的文字吗？</h1>
     <h1><?php echo $name ?></h1>
 
-    <?php require_once 'footer.php'; ?>
+    <?php require_once 'footer.tpl'; ?>
 
-    <?php require_once 'sub/footer.php'; ?>
+    <?php require_once 'sub/footer.tpl'; ?>
 </body>
 </html>

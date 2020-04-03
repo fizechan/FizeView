@@ -25,7 +25,7 @@ class Php implements ViewHandler
      * 初始化模板
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
         $default = [
             'view'   => './view',
@@ -60,7 +60,7 @@ class Php implements ViewHandler
      * @return string
      * @noinspection PhpIncludeInspection
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {
@@ -71,15 +71,5 @@ class Php implements ViewHandler
         $full_path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
         require_once $full_path;
         return ob_get_clean();
-    }
-
-    /**
-     * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public function display($path, array $assigns = [])
-    {
-        echo $this->render($path, $assigns);
     }
 }
