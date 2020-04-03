@@ -19,6 +19,7 @@
     "phpunit/phpunit": "~9.0",
     "illuminate/view": "~7.3",
     "laminas/laminas-view": "~2.11",
+    "laminas/laminas-servicemanager": "*",
     "latte/latte": "~3.0@dev",
     "liquid/liquid": "~1.4",
     "mthaml/mthaml": "~1.8",
