@@ -7,3 +7,4 @@
 /examples/twig/runtime
 /temp
 /.phpunit.result.cache
+/examples/Fenom/runtime

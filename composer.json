@@ -14,9 +14,9 @@
   },
   "require-dev": {
     "codeigniter4/framework": "~4.0",
+    "fenom/fenom": "~2.11",
     "phpunit/phpunit": "~9.0",
     "illuminate/view": "~7.3",
-    "fenom/fenom": "~2.11",
     "foil/foil": "~0.6",
     "laminas/laminas-view": "~2.11",
     "latte/latte": "~3.0@dev",
