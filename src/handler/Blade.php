@@ -187,16 +187,4 @@ class Blade implements ViewHandler
         }
         return $this->engine->make($path, $this->assigns)->render();
     }
-
-    /**
-     * 显示渲染内容
-     * @param string $path    模板文件路径
-     * @param array  $assigns 指定变量赋值
-     * @deprecated 使用render方法统一调用即可
-     */
-    public function display($path, $assigns = [])
-    {
-        echo $this->render($path, $assigns);
-    }
-
 }

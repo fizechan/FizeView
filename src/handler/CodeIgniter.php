@@ -2,6 +2,8 @@
 
 namespace fize\view\handler;
 
+use InvalidArgumentException;
+use Laminas\Escaper\Escaper;
 use CodeIgniter\Autoloader\Autoloader;
 use CodeIgniter\Autoloader\FileLocator;
 use CodeIgniter\Log\Logger;
@@ -10,9 +12,7 @@ use fize\view\ViewHandler;
 
 /**
  * CodeIgniter
- * CodeIgniter4
- * @deprecated 功能太弱，实现得太不优美了，放弃支持！
- * @see https://codeigniter4.github.io
+ * composer require codeigniter4/framework
  */
 class CodeIgniter implements ViewHandler
 {
@@ -34,28 +34,92 @@ class CodeIgniter implements ViewHandler
     public function __construct($config = [])
     {
         defined('CI_DEBUG') || define('CI_DEBUG', 1);
-        if (! defined('APPPATH'))
-        {
+        if (!defined('APPPATH')) {
             define('APPPATH', realpath(__DIR__ . '/..') . DIRECTORY_SEPARATOR);
         }
-        if (! defined('SYSTEMPATH'))
-        {
+        if (!defined('SYSTEMPATH')) {
             define('SYSTEMPATH', realpath(__DIR__ . '/../../system') . DIRECTORY_SEPARATOR);
         }
 
         $this->config = $config;
-        $view = new ConfigView();
-        if (isset($this->config['saveData'])) {
-            $view->saveData = $this->config['saveData'];
+
+        $config_view = [
+            'saveData' => true,
+            'filters'  => [
+                'abs'            => '\abs',
+                'capitalize'     => '\CodeIgniter\View\Filters::capitalize',
+                'date'           => '\CodeIgniter\View\Filters::date',
+                'date_modify'    => '\CodeIgniter\View\Filters::date_modify',
+                'default'        => '\CodeIgniter\View\Filters::default',
+                'esc'            => '\fize\view\handler\CodeIgniter::esc',
+                'excerpt'        => '\CodeIgniter\View\Filters::excerpt',
+                'highlight'      => '\CodeIgniter\View\Filters::highlight',
+                'highlight_code' => '\CodeIgniter\View\Filters::highlight_code',
+                'limit_words'    => '\CodeIgniter\View\Filters::limit_words',
+                'limit_chars'    => '\CodeIgniter\View\Filters::limit_chars',
+                'local_currency' => '\CodeIgniter\View\Filters::local_currency',
+                'local_number'   => '\CodeIgniter\View\Filters::local_number',
+                'lower'          => '\strtolower',
+                'nl2br'          => '\CodeIgniter\View\Filters::nl2br',
+                'number_format'  => '\number_format',
+                'prose'          => '\CodeIgniter\View\Filters::prose',
+                'round'          => '\CodeIgniter\View\Filters::round',
+                'strip_tags'     => '\strip_tags',
+                'title'          => '\CodeIgniter\View\Filters::title',
+                'upper'          => '\strtoupper',
+            ],
+
+            'plugins' => [
+                'current_url'       => '\CodeIgniter\View\Plugins::currentURL',
+                'previous_url'      => '\CodeIgniter\View\Plugins::previousURL',
+                'mailto'            => '\CodeIgniter\View\Plugins::mailto',
+                'safe_mailto'       => '\CodeIgniter\View\Plugins::safeMailto',
+                'lang'              => '\CodeIgniter\View\Plugins::lang',
+                'validation_errors' => '\CodeIgniter\View\Plugins::validationErrors',
+                'route'             => '\CodeIgniter\View\Plugins::route',
+                'siteURL'           => '\CodeIgniter\View\Plugins::siteURL',
+            ]
+        ];
+        if (isset($this->config['view']['saveData'])) {
+            $config_view['saveData'] = $this->config['view']['saveData'];
         }
-        if (isset($this->config['filters'])) {
-            $view->filters = $this->config['filters'];
+        if (isset($this->config['view']['filters'])) {
+            $config_view['filters'] = array_merge($config_view['filters'], $this->config['view']['filters']);
         }
-        if (isset($this->config['plugins'])) {
-            $view->plugins = $this->config['plugins'];
+        if (isset($this->config['view']['plugins'])) {
+            $config_view['plugins'] = array_merge($config_view['plugins'], $this->config['view']['plugins']);
         }
+        $config_view = (object)$config_view;
+
         $viewPath = isset($this->config['viewPath']) ? $this->config['viewPath'] : null;
-        $this->engine = new Parser($view, $viewPath, new FileLocator(new Autoloader()), true, new Logger(new ConfigLogger()));
+
+        $config_logger = [
+            'threshold' => 3,
+
+            'path' => '',
+
+            'dateFormat' => 'Y-m-d H:i:s',
+
+            'handlers' => [
+                'CodeIgniter\Log\Handlers\FileHandler' => [
+                    'handles'         => [
+                        'critical',
+                        'alert',
+                        'emergency',
+                        'debug',
+                        'error',
+                        'info',
+                        'notice',
+                        'warning',
+                    ],
+                    'fileExtension'   => '',
+                    'filePermissions' => 0644,
+                ],
+            ]
+        ];
+        $config_logger = (object)$config_logger;
+
+        $this->engine = new Parser($config_view, $viewPath, new FileLocator(new Autoloader()), true, new Logger($config_logger));
     }
 
     /**
@@ -90,81 +154,52 @@ class CodeIgniter implements ViewHandler
     }
 
     /**
-     * 显示渲染内容
-     * @param string $path    模板文件路径
-     * @param array  $assigns 指定变量赋值
+     * ESC过滤器
+     * @param mixed  $data
+     * @param string $context
+     * @param null   $encoding
+     * @return array|string
      */
-    public function display($path, $assigns = [])
+    public static function esc($data, $context = 'html', $encoding = null)
     {
-        echo $this->render($path, $assigns);
+        if (is_array($data)) {
+            foreach ($data as $key => &$value) {
+                $value = esc($value, $context);
+            }
+        }
+
+        if (is_string($data)) {
+            $context = strtolower($context);
+
+            // Provide a way to NOT escape data since
+            // this could be called automatically by
+            // the View library.
+            if (empty($context) || $context === 'raw') {
+                return $data;
+            }
+
+            if (!in_array($context, ['html', 'js', 'css', 'url', 'attr'])) {
+                throw new InvalidArgumentException('Invalid escape context provided.');
+            }
+
+            if ($context === 'attr') {
+                $method = 'escapeHtmlAttr';
+            } else {
+                $method = 'escape' . ucfirst($context);
+            }
+
+            static $escaper;
+            if (!$escaper) {
+                $escaper = new Escaper($encoding);
+            }
+
+            if ($encoding && $escaper->getEncoding() !== $encoding) {
+                $escaper = new Escaper($encoding);
+            }
+
+            $data = $escaper->$method($data);
+        }
+
+        return $data;
     }
-}
-
-
-class ConfigView
-{
-
-    public $saveData = true;
-
-    public $filters = [
-        'abs'            => '\abs',
-        'capitalize'     => '\CodeIgniter\View\Filters::capitalize',
-        'date'           => '\CodeIgniter\View\Filters::date',
-        'date_modify'    => '\CodeIgniter\View\Filters::date_modify',
-        'default'        => '\CodeIgniter\View\Filters::default',
-        //'esc'            => '\CodeIgniter\View\Filters::esc',
-        'excerpt'        => '\CodeIgniter\View\Filters::excerpt',
-        'highlight'      => '\CodeIgniter\View\Filters::highlight',
-        'highlight_code' => '\CodeIgniter\View\Filters::highlight_code',
-        'limit_words'    => '\CodeIgniter\View\Filters::limit_words',
-        'limit_chars'    => '\CodeIgniter\View\Filters::limit_chars',
-        'local_currency' => '\CodeIgniter\View\Filters::local_currency',
-        'local_number'   => '\CodeIgniter\View\Filters::local_number',
-        'lower'          => '\strtolower',
-        'nl2br'          => '\CodeIgniter\View\Filters::nl2br',
-        'number_format'  => '\number_format',
-        'prose'          => '\CodeIgniter\View\Filters::prose',
-        'round'          => '\CodeIgniter\View\Filters::round',
-        'strip_tags'     => '\strip_tags',
-        'title'          => '\CodeIgniter\View\Filters::title',
-        'upper'          => '\strtoupper',
-    ];
-
-    public $plugins = [
-        'current_url'       => '\CodeIgniter\View\Plugins::currentURL',
-        'previous_url'      => '\CodeIgniter\View\Plugins::previousURL',
-        'mailto'            => '\CodeIgniter\View\Plugins::mailto',
-        'safe_mailto'       => '\CodeIgniter\View\Plugins::safeMailto',
-        'lang'              => '\CodeIgniter\View\Plugins::lang',
-        'validation_errors' => '\CodeIgniter\View\Plugins::validationErrors',
-        'route'             => '\CodeIgniter\View\Plugins::route',
-        'siteURL'           => '\CodeIgniter\View\Plugins::siteURL',
-    ];
-}
-
-
-class ConfigLogger
-{
-    public $threshold = 3;
-
-    public $path = '';
-
-    public $dateFormat = 'Y-m-d H:i:s';
-
-    public $handlers = [
-        'CodeIgniter\Log\Handlers\FileHandler' => [
-            'handles'         => [
-                'critical',
-                'alert',
-                'emergency',
-                'debug',
-                'error',
-                'info',
-                'notice',
-                'warning',
-            ],
-            'fileExtension'   => '',
-            'filePermissions' => 0644,
-        ],
-    ];
 }

@@ -13,9 +13,9 @@
     "fize/io": "~3.5"
   },
   "require-dev": {
+    "codeigniter4/framework": "~4.0",
     "phpunit/phpunit": "~9.0",
     "illuminate/view": "~7.3",
-    "codeigniter4/framework": "~4.0@rc",
     "fenom/fenom": "~2.11",
     "foil/foil": "~0.6",
     "laminas/laminas-view": "~2.11",
