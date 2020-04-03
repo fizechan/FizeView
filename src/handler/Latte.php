@@ -8,8 +8,6 @@ use fize\view\ViewHandler;
 
 /**
  * Latte
- * @see https://github.com/nette/latte
- * @todo 待测试
  */
 class Latte implements ViewHandler
 {
@@ -33,15 +31,17 @@ class Latte implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
         $default = [
-            'view' => './view',
+            'view'   => './view',
+            'cache'  => './runtime/',
+            'suffix' => 'latte'
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
         $this->engine = new Engine();
-        $this->engine->setTempDirectory($this->config['view']);
+        $this->engine->setTempDirectory($this->config['cache']);
     }
 
     /**
@@ -55,8 +55,8 @@ class Latte implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
@@ -65,32 +65,19 @@ class Latte implements ViewHandler
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
+        $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
+
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
         return $this->engine->renderToString($path, $this->assigns);
-    }
-
-    /**
-     * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public function display($path, array $assigns = [])
-    {
-        if ($assigns) {
-            foreach ($assigns as $name => $value) {
-                $this->assign($name, $value);
-            }
-        }
-        $this->engine->render($path, $this->assigns);
     }
 }
