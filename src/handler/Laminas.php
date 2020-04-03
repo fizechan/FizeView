@@ -15,7 +15,6 @@ use fize\view\ViewHandler;
  * composer require laminas/laminas-view
  * composer require laminas/laminas-servicemanager
  * zendframework进入Linux基金会后改名为Laminas
- * @deprecated 不建议使用
  */
 class Laminas implements ViewHandler
 {

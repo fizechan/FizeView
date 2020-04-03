@@ -10,7 +10,6 @@ use fize\view\ViewHandler;
 /**
  * Fenom
  * composer require fenom/fenom
- * @deprecated 不建议使用
  */
 class Fenom implements ViewHandler
 {

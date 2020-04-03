@@ -8,6 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * Latte
+ * composer require latte/latte
  */
 class Latte implements ViewHandler
 {

@@ -13,7 +13,6 @@ use fize\view\ViewHandler;
 /**
  * CodeIgniter
  * composer require codeigniter4/framework
- * @deprecated 不建议使用
  */
 class CodeIgniter implements ViewHandler
 {

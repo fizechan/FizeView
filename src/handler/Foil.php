@@ -10,7 +10,6 @@ use fize\view\ViewHandler;
 /**
  * Foil
  * composer require foil/foil
- * @deprecated 不建议使用
  */
 class Foil implements ViewHandler
 {
