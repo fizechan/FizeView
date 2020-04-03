@@ -1,0 +1,21 @@
+!!! 5
+%html{lang: 'ch'}
+  %head
+    %title App Name - Page Title
+  %body
+    %h1 #{$title}
+    %p
+      This is appended to the master sidebar.
+    %div{class: 'container'}
+      %p
+        This is my body content.
+      - foreach($list as $item)
+        %a(href="/new/#{$item['id']}") #{$item['title']}
+        %br
+      %br
+
+      最新资讯：
+      %br
+      - foreach($news as $new)
+        %a(href="/new/#{$new['id']}") #{$new['title']}
+        %br

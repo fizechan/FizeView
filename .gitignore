@@ -9,3 +9,4 @@
 /.phpunit.result.cache
 /examples/Fenom/runtime
 /examples/Latte/runtime
+/examples/MtHaml/runtime
