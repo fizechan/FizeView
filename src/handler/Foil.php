@@ -9,8 +9,8 @@ use fize\view\ViewHandler;
 
 /**
  * Foil
- * @see https://foilphp.github.io
- * @todo 待测试
+ * composer require foil/foil
+ * @deprecated 不建议使用
  */
 class Foil implements ViewHandler
 {
@@ -34,7 +34,7 @@ class Foil implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
         $this->config = $config;
         $foil = FoilEngine::boot($this->config);
@@ -52,8 +52,8 @@ class Foil implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
@@ -62,11 +62,11 @@ class Foil implements ViewHandler
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {
@@ -74,15 +74,5 @@ class Foil implements ViewHandler
             }
         }
         return $this->engine->render($path, $this->assigns);
-    }
-
-    /**
-     * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public function display($path, array $assigns = [])
-    {
-        echo $this->render($path, $assigns);
     }
 }
