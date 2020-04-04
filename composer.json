@@ -20,6 +20,7 @@
     "laminas/laminas-servicemanager": "~3.4",
     "laminas/laminas-view": "~2.11",
     "latte/latte": "~3.0@dev",
+    "league/plates": "~4.0@alpha",
     "liquid/liquid": "~1.4",
     "mthaml/mthaml": "~1.8",
     "mustache/mustache": "~2.13",
@@ -30,7 +31,7 @@
 
     "phpunit/phpunit": "~9.0",
 
-    "league/plates": "~4.0@alpha",
+
     "pug-php/pug": "~3.4",
     "rain/raintpl": "~3.1",
     "smarty/smarty": ">=3.1.0",
