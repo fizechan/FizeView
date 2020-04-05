@@ -8,8 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * TinyButStrong
- * @see https://www.tinybutstrong.com/
- * @todo 待测试
+ * composer require tinybutstrong/tinybutstrong
  */
 class TinyButStrong implements ViewHandler
 {
@@ -28,12 +27,13 @@ class TinyButStrong implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
-        $default = [
-            'view' => './view',
+        $default_config = [
+            'view'   => './view',
+            'suffix' => 'htm'
         ];
-        $config = array_merge($default, $config);
+        $config = array_merge($default_config, $config);
         $this->config = $config;
         $this->engine = new clsTinyButStrong($this->config);
     }
@@ -49,22 +49,24 @@ class TinyButStrong implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
-        $this->engine->MergeBlock($name, $value);
+        $GLOBALS[$name] = $value;
     }
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
+        $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
+        $this->engine->LoadTemplate($path);
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
@@ -72,20 +74,5 @@ class TinyButStrong implements ViewHandler
         }
         $this->engine->Show();
         return ob_get_clean();
-    }
-
-    /**
-     * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public function display($path, array $assigns = [])
-    {
-        if ($assigns) {
-            foreach ($assigns as $name => $value) {
-                $this->assign($name, $value);
-            }
-        }
-        $this->engine->Show();
     }
 }

@@ -51,7 +51,7 @@ class CodeIgniter implements ViewHandler
                 'date'           => '\CodeIgniter\View\Filters::date',
                 'date_modify'    => '\CodeIgniter\View\Filters::date_modify',
                 'default'        => '\CodeIgniter\View\Filters::default',
-                'esc'            => '\fize\view\handler\CodeIgniter::esc',
+                'esc'            => '\fize\view\handler\CodeIgniter::esc',  // 原esc方法无法直接使用，故在此重新实现
                 'excerpt'        => '\CodeIgniter\View\Filters::excerpt',
                 'highlight'      => '\CodeIgniter\View\Filters::highlight',
                 'highlight_code' => '\CodeIgniter\View\Filters::highlight_code',
