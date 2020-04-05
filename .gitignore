@@ -4,7 +4,7 @@
 /examples/Blade/runtime
 /examples/Think/runtime
 /examples/Smarty/runtime
-/examples/twig/runtime
+/examples/Twig/runtime
 /temp
 /.phpunit.result.cache
 /examples/Fenom/runtime
