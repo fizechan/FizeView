@@ -28,7 +28,7 @@
     "phpunit/phpunit": "~9.0",
     "pug-php/pug": "~3.4",
     "rain/raintpl": "~3.1",
-    "smarty/smarty": ">=3.1.0",
+    "smarty/smarty": "~3.1",
     "topthink/think-template": ">=2.0.0",
     "tinybutstrong/tinybutstrong": "~3.11",
     "twig/twig": ">=2.11.0"

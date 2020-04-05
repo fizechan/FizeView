@@ -3,7 +3,7 @@
 /composer.lock
 /examples/Blade/runtime
 /examples/think/runtime
-/examples/smarty/runtime
+/examples/Smarty/runtime
 /examples/twig/runtime
 /temp
 /.phpunit.result.cache
