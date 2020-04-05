@@ -25,13 +25,7 @@
     "mthaml/mthaml": "~1.8",
     "mustache/mustache": "~2.13",
     "phptal/phptal": "~1.4@dev",
-
-
-
-
     "phpunit/phpunit": "~9.0",
-
-
     "pug-php/pug": "~3.4",
     "rain/raintpl": "~3.1",
     "smarty/smarty": ">=3.1.0",

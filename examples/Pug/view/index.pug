@@ -1,0 +1,33 @@
+doctype html
+html(lang="ch")
+    head
+        title App Name - Page Title
+    body
+        h1 = title
+        p This is appended to the master sidebar.
+
+        .container
+            p This is my body content.
+            = "\n"
+            each $item in $list
+                a(href=`/new/${item['id']}`) #{$item['title']}
+                = "\n"
+                br
+                = "\n"
+                = $item['content']
+            = "\n"
+            br
+
+            = "\n"
+            最新资讯：
+            = "\n"
+            br
+
+            = "\n"
+            each $newt in $news
+                a(href=`/new/${newt['id']}`) #{$newt['title']}
+                = "\n"
+                br
+                = "\n"
+        = "\n"
+    = "\n"

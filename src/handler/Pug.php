@@ -8,8 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * Pug
- * @see https://github.com/pug-php/pug/blob/master/example/index.php
- * @todo 待测试
+ * composer require pug-php/pug
  */
 class Pug implements ViewHandler
 {
@@ -33,8 +32,14 @@ class Pug implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
+        $default_config = [
+            'basedir' => './view',
+            'cache'   => './cache',
+            'suffix'  => 'pug'
+        ];
+        $config = array_merge($default_config, $config);
         $this->config = $config;
         $this->engine = new PugEngine($this->config);
     }
@@ -50,8 +55,8 @@ class Pug implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
@@ -60,27 +65,19 @@ class Pug implements ViewHandler
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
+        $path = $this->config['basedir'] . '/' . $path . '.' . $this->config['suffix'];
+
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
         return $this->engine->render($path, $this->assigns);
-    }
-
-    /**
-     * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public function display($path, array $assigns = [])
-    {
-        echo $this->render($path, $assigns);
     }
 }
