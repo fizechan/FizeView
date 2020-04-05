@@ -2,7 +2,7 @@
 /.idea
 /composer.lock
 /examples/Blade/runtime
-/examples/think/runtime
+/examples/Think/runtime
 /examples/Smarty/runtime
 /examples/twig/runtime
 /temp
