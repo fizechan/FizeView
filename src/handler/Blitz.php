@@ -8,11 +8,8 @@ use fize\view\ViewHandler;
 
 /**
  * Blitz
- *
  * 需要编译Blitz并启用该扩展
- * version 0.9.1
- * @see http://alexeyrybak.com/blitz/blitz_en.html
- * @todo 待测试
+ * @see  http://alexeyrybak.com/blitz/blitz_en.html
  */
 class Blitz implements ViewHandler
 {
@@ -36,13 +33,16 @@ class Blitz implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct(array $config = [])
+    public function __construct($config = [])
     {
         $default = [
-            'view' => './view',
+            'view'   => './view',
+            'suffix' => 'tpl',
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
+
+        $this->engine = new BlitzEngine();
     }
 
     /**
@@ -56,8 +56,8 @@ class Blitz implements ViewHandler
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public function assign($name, $value)
     {
@@ -66,31 +66,21 @@ class Blitz implements ViewHandler
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, array $assigns = [])
+    public function render($path, $assigns = [])
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        $this->engine = new BlitzEngine($this->config['view'] . $path);
+        $this->engine->load(file_get_contents($this->config['view'] . $path . '.' . $this->config['suffix']));
         if ($this->assigns) {
             $this->engine->set($this->assigns);
         }
         return $this->engine->parse();
-    }
-
-    /**
-     * 显示渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
-     */
-    public function display($path, array $assigns = [])
-    {
-        echo $this->render($path, $assigns);
     }
 }
