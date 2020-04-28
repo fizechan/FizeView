@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Blitz as BlitzEngine;
@@ -8,6 +7,7 @@ use fize\view\ViewHandler;
 
 /**
  * Blitz
+ *
  * 需要编译Blitz并启用该扩展
  * @see  http://alexeyrybak.com/blitz/blitz_en.html
  */

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use think\Template;
@@ -8,6 +7,7 @@ use fize\view\ViewHandler;
 
 /**
  * Think
+ *
  * composer require topthink/think-template
  */
 class Think implements ViewHandler

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Pug\Pug as PugEngine;
@@ -8,6 +7,7 @@ use fize\view\ViewHandler;
 
 /**
  * Pug
+ *
  * composer require pug-php/pug
  */
 class Pug implements ViewHandler

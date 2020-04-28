@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use MtHaml\Environment;
@@ -9,6 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * MtHaml
+ *
  * composer require mthaml/mthaml
  */
 class MtHaml implements ViewHandler

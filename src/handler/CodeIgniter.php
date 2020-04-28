@@ -3,15 +3,16 @@
 namespace fize\view\handler;
 
 use InvalidArgumentException;
-use Laminas\Escaper\Escaper;
 use CodeIgniter\Autoloader\Autoloader;
 use CodeIgniter\Autoloader\FileLocator;
 use CodeIgniter\Log\Logger;
 use CodeIgniter\View\Parser;
+use Laminas\Escaper\Escaper;
 use fize\view\ViewHandler;
 
 /**
  * CodeIgniter
+ *
  * composer require codeigniter4/framework
  */
 class CodeIgniter implements ViewHandler

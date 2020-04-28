@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use PHPTAL as PhptalEngine;
@@ -8,6 +7,8 @@ use fize\view\ViewHandler;
 
 /**
  * Phptal
+ *
+ * composer require phptal/phptal
  */
 class Phptal implements ViewHandler
 {

@@ -1,10 +1,9 @@
 <?php
 
-
 namespace fize\view;
 
 /**
- * 视图类
+ * 视图
  */
 class View
 {
@@ -22,11 +21,11 @@ class View
     /**
      * 构造
      * @param string $handler 处理器
-     * @param array $config 参数配置
+     * @param array  $config  参数配置
      */
     public function __construct($handler, $config = [])
     {
-        self::$view = self::getInstance($handler, $config);
+        self::$view = ViewFactory::create($handler, $config);
     }
 
     /**
@@ -49,8 +48,8 @@ class View
 
     /**
      * 变量赋值
-     * @param string $name 变量名
-     * @param mixed $value 变量
+     * @param string $name  变量名
+     * @param mixed  $value 变量
      */
     public static function assign($name, $value)
     {
@@ -59,8 +58,8 @@ class View
 
     /**
      * 返回渲染内容
-     * @param string $path 模板文件路径
-     * @param array $assigns 指定变量赋值
+     * @param string $path    模板文件路径
+     * @param array  $assigns 指定变量赋值
      * @return string
      */
     public static function render($path = null, $assigns = [])
@@ -70,17 +69,4 @@ class View
         }
         return self::$view->render(self::$path, $assigns);
     }
-
-    /**
-     * 取得实例
-     * @param string $handler 处理器
-     * @param array $config 参数配置
-     * @return ViewHandler
-     */
-    private static function getInstance($handler, $config = [])
-    {
-        $class = '\\' . __NAMESPACE__ . '\\handler\\' . $handler;
-        return new $class($config);
-    }
-
 }

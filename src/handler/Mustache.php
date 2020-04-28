@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Mustache_Engine;
@@ -9,6 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * Mustache
+ *
  * composer require mustache/mustache
  */
 class Mustache implements ViewHandler

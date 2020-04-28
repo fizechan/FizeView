@@ -1,14 +1,14 @@
 <?php
 
-
 namespace fize\view\handler;
 
-use Foil\Foil as FoilEngine;
 use Foil\Engine;
+use Foil\Foil as FoilEngine;
 use fize\view\ViewHandler;
 
 /**
  * Foil
+ *
  * composer require foil/foil
  */
 class Foil implements ViewHandler

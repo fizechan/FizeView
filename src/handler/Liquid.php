@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Liquid\Template;
@@ -8,6 +7,7 @@ use fize\view\ViewHandler;
 
 /**
  * Liquid
+ *
  * composer require liquid/liquid
  */
 class Liquid implements ViewHandler

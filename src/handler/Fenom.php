@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Fenom as FenomEngine;
@@ -9,6 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * Fenom
+ *
  * composer require fenom/fenom
  */
 class Fenom implements ViewHandler

@@ -1,14 +1,15 @@
 <?php
 
-
 namespace fize\view\handler;
 
-use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 use fize\view\ViewHandler;
 
 /**
  * Twig
+ *
+ * composer require twig/twig
  */
 class Twig implements ViewHandler
 {

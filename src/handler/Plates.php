@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use League\Plates\Engine;
@@ -8,6 +7,7 @@ use fize\view\ViewHandler;
 
 /**
  * Plates
+ *
  * composer require league/plates:v4.0.0-alpha
  */
 class Plates implements ViewHandler

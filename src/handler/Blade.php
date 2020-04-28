@@ -1,21 +1,22 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\View\Compilers\BladeCompiler;
 use Illuminate\View\Engines\PhpEngine;
 use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
-use Illuminate\View\Compilers\BladeCompiler;
-use Illuminate\View\FileViewFinder;
 use Illuminate\View\Factory;
+use Illuminate\View\FileViewFinder;
+
 use fize\view\ViewHandler;
 
 /**
  * Blade
+ *
  * composer require illuminate/view
  */
 class Blade implements ViewHandler

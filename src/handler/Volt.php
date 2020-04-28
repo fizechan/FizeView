@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Phalcon\Mvc\View;
@@ -9,6 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * Volt
+ *
  * Volt引擎是Phalcon使用的模板引擎，由C语言编写，需要安装并开启该扩展
  * @see https://docs.phalcon.io/4.0/zh-cn/installation
  */

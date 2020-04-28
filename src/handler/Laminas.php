@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Laminas\View\Model\ViewModel;
@@ -12,6 +11,7 @@ use fize\view\ViewHandler;
 
 /**
  * Laminas
+ *
  * composer require laminas/laminas-view
  * composer require laminas/laminas-servicemanager
  * zendframework进入Linux基金会后改名为Laminas

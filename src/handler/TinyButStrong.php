@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use clsTinyButStrong;
@@ -8,6 +7,7 @@ use fize\view\ViewHandler;
 
 /**
  * TinyButStrong
+ *
  * composer require tinybutstrong/tinybutstrong
  * @todo 视图文件尚未调整完毕
  */

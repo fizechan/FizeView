@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Smarty as SmartyEngine;
@@ -9,6 +8,7 @@ use fize\view\ViewHandler;
 
 /**
  * Smarty
+ *
  * composer require smarty/smarty
  */
 class Smarty implements ViewHandler

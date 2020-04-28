@@ -1,6 +1,5 @@
 <?php
 
-
 namespace fize\view\handler;
 
 use Rain\Tpl;
@@ -8,6 +7,7 @@ use fize\view\ViewHandler;
 
 /**
  * RainTPL
+ *
  * composer require rain/raintpl
  */
 class RainTPL implements ViewHandler
