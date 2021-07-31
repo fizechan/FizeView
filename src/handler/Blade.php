@@ -2,6 +2,7 @@
 
 namespace fize\view\handler;
 
+use fize\view\ViewHandler;
 use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
@@ -11,8 +12,6 @@ use Illuminate\View\Engines\CompilerEngine;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory;
 use Illuminate\View\FileViewFinder;
-
-use fize\view\ViewHandler;
 
 /**
  * Blade
@@ -46,7 +45,7 @@ class Blade implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default_config = [
             'view'  => './view',
@@ -145,7 +144,7 @@ class Blade implements ViewHandler
      * 注册引擎
      * @return Factory
      */
-    protected function registerFactory()
+    protected function registerFactory(): Factory
     {
         $resolver = $this->container['view.engine.resolver'];
         $finder = $this->container['view.finder'];
@@ -158,7 +157,7 @@ class Blade implements ViewHandler
      * 获取底部引擎对象
      * @return Factory
      */
-    public function engine()
+    public function engine(): Factory
     {
         return $this->engine;
     }
@@ -168,7 +167,7 @@ class Blade implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->assigns[$name] = $value;
     }
@@ -179,7 +178,7 @@ class Blade implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {

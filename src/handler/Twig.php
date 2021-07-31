@@ -2,9 +2,9 @@
 
 namespace fize\view\handler;
 
+use fize\view\ViewHandler;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use fize\view\ViewHandler;
 
 /**
  * Twig
@@ -28,7 +28,7 @@ class Twig implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default = [
             'view'  => './view',
@@ -42,9 +42,9 @@ class Twig implements ViewHandler
 
     /**
      * 获取底层引擎对象
-     * @return mixed
+     * @return Environment
      */
-    public function engine()
+    public function engine(): Environment
     {
         return $this->engine;
     }
@@ -54,7 +54,7 @@ class Twig implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->assigns[$name] = $value;
     }
@@ -65,7 +65,7 @@ class Twig implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {

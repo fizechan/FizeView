@@ -2,12 +2,12 @@
 
 namespace fize\view\handler;
 
+use fize\view\ViewHandler;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver\AggregateResolver;
 use Laminas\View\Resolver\TemplatePathStack;
 use Laminas\View\Resolver\RelativeFallbackResolver;
-use fize\view\ViewHandler;
 
 /**
  * Laminas
@@ -38,7 +38,7 @@ class Laminas implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $this->config = $config;
         $this->engine = new PhpRenderer($this->config);
@@ -58,7 +58,7 @@ class Laminas implements ViewHandler
      * 获取底部引擎对象
      * @return PhpRenderer
      */
-    public function engine()
+    public function engine(): PhpRenderer
     {
         return $this->engine;
     }
@@ -68,7 +68,7 @@ class Laminas implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->viewModel->setVariable($name, $value);
     }
@@ -79,7 +79,7 @@ class Laminas implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {

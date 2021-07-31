@@ -12,7 +12,7 @@ interface ViewHandler
      * 构造
      * @param array $config 配置
      */
-    public function __construct($config = []);
+    public function __construct(array $config = []);
 
     /**
      * 获取底部引擎对象
@@ -25,7 +25,7 @@ interface ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value);
+    public function assign(string $name, $value);
 
     /**
      * 返回渲染内容
@@ -33,5 +33,5 @@ interface ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = []);
+    public function render(string $path, array $assigns = []): string;
 }

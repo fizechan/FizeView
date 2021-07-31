@@ -23,7 +23,7 @@ class View
      * @param string $handler 处理器
      * @param array  $config  参数配置
      */
-    public function __construct($handler, $config = [])
+    public function __construct(string $handler, array $config = [])
     {
         self::$view = ViewFactory::create($handler, $config);
     }
@@ -41,7 +41,7 @@ class View
      * 设置模板路径
      * @param string $path 模板路径
      */
-    public static function path($path)
+    public static function path(string $path)
     {
         self::$path = $path;
     }
@@ -51,18 +51,18 @@ class View
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public static function assign($name, $value)
+    public static function assign(string $name, $value)
     {
         self::$view->assign($name, $value);
     }
 
     /**
      * 返回渲染内容
-     * @param string $path    模板文件路径
-     * @param array  $assigns 指定变量赋值
+     * @param string|null $path    模板文件路径
+     * @param array       $assigns 指定变量赋值
      * @return string
      */
-    public static function render($path = null, $assigns = [])
+    public static function render(string $path = null, array $assigns = []): string
     {
         if ($path) {
             self::path($path);

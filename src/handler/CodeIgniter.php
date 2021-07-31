@@ -2,13 +2,13 @@
 
 namespace fize\view\handler;
 
-use InvalidArgumentException;
 use CodeIgniter\Autoloader\Autoloader;
 use CodeIgniter\Autoloader\FileLocator;
 use CodeIgniter\Log\Logger;
 use CodeIgniter\View\Parser;
-use Laminas\Escaper\Escaper;
 use fize\view\ViewHandler;
+use InvalidArgumentException;
+use Laminas\Escaper\Escaper;
 
 /**
  * CodeIgniter
@@ -32,7 +32,7 @@ class CodeIgniter implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         defined('CI_DEBUG') || define('CI_DEBUG', 1);
         if (!defined('APPPATH')) {
@@ -92,7 +92,7 @@ class CodeIgniter implements ViewHandler
         }
         $config_view = (object)$config_view;
 
-        $viewPath = isset($this->config['viewPath']) ? $this->config['viewPath'] : null;
+        $viewPath = $this->config['viewPath'] ?? null;
 
         $config_logger = [
             'threshold' => 3,
@@ -127,7 +127,7 @@ class CodeIgniter implements ViewHandler
      * 获取底部引擎对象
      * @return Parser
      */
-    public function engine()
+    public function engine(): Parser
     {
         return $this->engine;
     }
@@ -137,7 +137,7 @@ class CodeIgniter implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->engine->setVar($name, $value);
     }
@@ -148,9 +148,9 @@ class CodeIgniter implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
-        $options = isset($this->config['options']) ? $this->config['options'] : null;
+        $options = $this->config['options'] ?? null;
         return $this->engine->setData($assigns)->render($path, $options);
     }
 
@@ -161,7 +161,7 @@ class CodeIgniter implements ViewHandler
      * @param null   $encoding
      * @return array|string
      */
-    public static function esc($data, $context = 'html', $encoding = null)
+    public static function esc($data, string $context = 'html', $encoding = null)
     {
         if (is_array($data)) {
             foreach ($data as $key => &$value) {

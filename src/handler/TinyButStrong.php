@@ -28,7 +28,7 @@ class TinyButStrong implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default_config = [
             'view'   => './view',
@@ -43,7 +43,7 @@ class TinyButStrong implements ViewHandler
      * 获取底部引擎对象
      * @return clsTinyButStrong
      */
-    public function engine()
+    public function engine(): clsTinyButStrong
     {
         return $this->engine;
     }
@@ -53,7 +53,7 @@ class TinyButStrong implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $GLOBALS[$name] = $value;
     }
@@ -64,7 +64,7 @@ class TinyButStrong implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
         $this->engine->LoadTemplate($path);

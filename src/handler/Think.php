@@ -2,8 +2,8 @@
 
 namespace fize\view\handler;
 
-use think\Template;
 use fize\view\ViewHandler;
+use think\Template;
 
 /**
  * Think
@@ -22,7 +22,7 @@ class Think implements ViewHandler
      * 初始化模板
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default = [
             'view_path'  => './view/',
@@ -36,7 +36,7 @@ class Think implements ViewHandler
      * 获取底部引擎对象
      * @return Template
      */
-    public function engine()
+    public function engine(): Template
     {
         return $this->engine;
     }
@@ -46,7 +46,7 @@ class Think implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->engine->assign([$name => $value]);
     }
@@ -57,7 +57,7 @@ class Think implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         $this->engine->fetch($path, $assigns);
         return ob_get_clean();

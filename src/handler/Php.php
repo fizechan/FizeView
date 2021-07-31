@@ -24,7 +24,7 @@ class Php implements ViewHandler
      * 初始化模板
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default = [
             'view'   => './view',
@@ -35,9 +35,9 @@ class Php implements ViewHandler
 
     /**
      * 获取底部引擎对象
-     * @return mixed
+     * @return Php
      */
-    public function engine()
+    public function engine(): Php
     {
         return $this;
     }
@@ -47,7 +47,7 @@ class Php implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->assigns[$name] = $value;
     }
@@ -57,9 +57,8 @@ class Php implements ViewHandler
      * @param string $path    模板文件路径
      * @param array  $assigns 指定变量赋值
      * @return string
-     * @noinspection PhpIncludeInspection
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {

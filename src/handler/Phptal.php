@@ -2,8 +2,8 @@
 
 namespace fize\view\handler;
 
-use PHPTAL as PhptalEngine;
 use fize\view\ViewHandler;
+use PHPTAL as PhptalEngine;
 
 /**
  * Phptal
@@ -32,7 +32,7 @@ class Phptal implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default = [
             'view'   => './view',
@@ -50,7 +50,7 @@ class Phptal implements ViewHandler
      * 获取底部引擎对象
      * @return PhptalEngine
      */
-    public function engine()
+    public function engine(): PhptalEngine
     {
         return $this->engine;
     }
@@ -60,7 +60,7 @@ class Phptal implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->assigns[$name] = $value;
     }
@@ -71,7 +71,7 @@ class Phptal implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
 

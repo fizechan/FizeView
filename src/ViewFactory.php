@@ -14,7 +14,7 @@ class ViewFactory
      * @param array  $config  参数配置
      * @return ViewHandler
      */
-    public static function create($handler, $config = [])
+    public static function create(string $handler, array $config = []): ViewHandler
     {
         $class = '\\' . __NAMESPACE__ . '\\handler\\' . $handler;
         return new $class($config);

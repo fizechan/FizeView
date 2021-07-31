@@ -8,33 +8,33 @@
       "email": "chenfengzhan@qq.com"
     }
   ],
-  "require": {
-    "php": ">=5.4.0"
-  },
-  "require-dev": {
-    "codeigniter4/framework": "~4.0.0",
-    "fenom/fenom": "~2.11.0",
-    "foil/foil": "~0.6.0",
-    "illuminate/view": "~7.8.0",
-    "laminas/laminas-servicemanager": "~3.4.0",
-    "laminas/laminas-view": "~2.11.0",
-    "latte/latte": "~3.0@dev",
-    "league/plates": "~4.0@alpha",
-    "liquid/liquid": "~1.4.0",
-    "mthaml/mthaml": "~1.8.0",
-    "mustache/mustache": "~2.13.0",
-    "phptal/phptal": "~1.4@dev",
-    "phpunit/phpunit": "~9.1.0",
-    "pug-php/pug": "~3.4.0",
-    "rain/raintpl": "~3.1.0",
-    "smarty/smarty": "~3.1.0",
-    "topthink/think-template": "~2.0.0",
-    "tinybutstrong/tinybutstrong": "~3.11.0",
-    "twig/twig": "~3.0.0"
-  },
   "autoload": {
     "psr-4": {
       "fize\\view\\": "src"
     }
+  },
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "require-dev": {
+    "codeigniter4/framework": "^4.0.0",
+    "fenom/fenom": "^2.11.0",
+    "foil/foil": "^0.6.0",
+    "illuminate/view": "^7.8.0",
+    "laminas/laminas-servicemanager": "^3.4.0",
+    "laminas/laminas-view": "^2.11.0",
+    "latte/latte": "^3.0@dev",
+    "league/plates": "^4.0@alpha",
+    "liquid/liquid": "^1.4.0",
+    "mthaml/mthaml": "^1.8.0",
+    "mustache/mustache": "^2.13.0",
+    "phptal/phptal": "^1.4.0",
+    "phpunit/phpunit": "^9.1.0",
+    "pug-php/pug": "^3.4.0",
+    "rain/raintpl": "^3.1.0",
+    "smarty/smarty": "^3.1.0",
+    "topthink/think-template": "^2.0.0",
+    "tinybutstrong/tinybutstrong": "^3.11.0",
+    "twig/twig": "^3.0.0"
   }
 }

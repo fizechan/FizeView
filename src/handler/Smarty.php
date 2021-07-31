@@ -2,9 +2,8 @@
 
 namespace fize\view\handler;
 
-use Smarty as SmartyEngine;
 use fize\view\ViewHandler;
-
+use Smarty as SmartyEngine;
 
 /**
  * Smarty
@@ -33,7 +32,7 @@ class Smarty implements ViewHandler
      * 初始化模板
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default = [
             'suffix'       => 'tpl',
@@ -61,7 +60,7 @@ class Smarty implements ViewHandler
      * 获取底部引擎对象
      * @return SmartyEngine
      */
-    public function engine()
+    public function engine(): SmartyEngine
     {
         return $this->engine;
     }
@@ -71,7 +70,7 @@ class Smarty implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->engine->assign($name, $value);
     }
@@ -82,7 +81,7 @@ class Smarty implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         if ($assigns) {
             foreach ($assigns as $name => $value) {

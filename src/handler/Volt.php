@@ -2,9 +2,9 @@
 
 namespace fize\view\handler;
 
+use fize\view\ViewHandler;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
-use fize\view\ViewHandler;
 
 /**
  * Volt
@@ -36,7 +36,7 @@ class Volt implements ViewHandler
      * 初始化
      * @param array $config 配置
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         $default = [
             'view'   => './view',
@@ -64,7 +64,7 @@ class Volt implements ViewHandler
      * @param string $name  变量名
      * @param mixed  $value 变量
      */
-    public function assign($name, $value)
+    public function assign(string $name, $value)
     {
         $this->assigns[$name] = $value;
     }
@@ -75,7 +75,7 @@ class Volt implements ViewHandler
      * @param array  $assigns 指定变量赋值
      * @return string
      */
-    public function render($path, $assigns = [])
+    public function render(string $path, array $assigns = []): string
     {
         $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
 
