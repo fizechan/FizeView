@@ -57,6 +57,21 @@ class View
     }
 
     /**
+     * 将变量暴露到模板
+     * @param mixed $value 变量
+     */
+    public static function see($value)
+    {
+        $vars = get_defined_vars();
+        foreach ($vars as $name => $var) {
+            if ($var === $value) {
+                self::assign($name, $value);
+                break;
+            }
+        }
+    }
+
+    /**
      * 返回渲染内容
      * @param string|null $path    模板文件路径
      * @param array       $assigns 指定变量赋值
