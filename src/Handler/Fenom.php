@@ -1,14 +1,23 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
+use Fenom as FenomEngine;
+use Fenom\Provider;
+use Fize\View\ViewHandler;
 
 /**
- * PHP
+ * Fenom
+ *
+ * composer require fenom/fenom
  */
-class Php implements ViewHandler
+class Fenom implements ViewHandler
 {
+
+    /**
+     * @var FenomEngine Fenom引擎
+     */
+    private $engine;
 
     /**
      * @var array 配置
@@ -18,28 +27,35 @@ class Php implements ViewHandler
     /**
      * @var array 变量
      */
-    private $assigns;
+    private $assigns = [];
 
     /**
-     * 初始化模板
+     * 初始化
      * @param array $config 配置
      */
     public function __construct(array $config = [])
     {
         $default = [
             'view'   => './view',
-            'suffix' => 'php'
+            'cache'  => './cache',
+            'suffix' => 'tpl',
         ];
-        $this->config = array_merge($default, $config);
+        $config = array_merge($default, $config);
+        $this->config = $config;
+        $this->engine = new FenomEngine(new Provider($this->config['view']));
+        $this->engine->setCompileDir($this->config['cache']);
+        if (isset($this->config['options'])) {
+            $this->engine->setOptions($this->config['options']);
+        }
     }
 
     /**
      * 获取底部引擎对象
-     * @return Php
+     * @return FenomEngine
      */
-    public function engine(): Php
+    public function engine(): FenomEngine
     {
-        return $this;
+        return $this->engine;
     }
 
     /**
@@ -60,14 +76,13 @@ class Php implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
+        $path = $path . '.' . $this->config['suffix'];
+
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        extract($this->assigns);
-        $full_path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
-        require_once $full_path;
-        return ob_get_clean();
+        return $this->engine->fetch($path, $this->assigns);
     }
 }

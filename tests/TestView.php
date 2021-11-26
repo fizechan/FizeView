@@ -1,7 +1,7 @@
 <?php
 
 
-use fize\view\View;
+use Fize\View\View;
 use PHPUnit\Framework\TestCase;
 
 class TestView extends TestCase

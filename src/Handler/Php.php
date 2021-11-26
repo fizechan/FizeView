@@ -1,23 +1,14 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use Fenom as FenomEngine;
-use Fenom\Provider;
-use fize\view\ViewHandler;
+use Fize\View\ViewHandler;
 
 /**
- * Fenom
- *
- * composer require fenom/fenom
+ * PHP
  */
-class Fenom implements ViewHandler
+class Php implements ViewHandler
 {
-
-    /**
-     * @var FenomEngine Fenom引擎
-     */
-    private $engine;
 
     /**
      * @var array 配置
@@ -27,35 +18,28 @@ class Fenom implements ViewHandler
     /**
      * @var array 变量
      */
-    private $assigns = [];
+    private $assigns;
 
     /**
-     * 初始化
+     * 初始化模板
      * @param array $config 配置
      */
     public function __construct(array $config = [])
     {
         $default = [
             'view'   => './view',
-            'cache'  => './cache',
-            'suffix' => 'tpl',
+            'suffix' => 'php'
         ];
-        $config = array_merge($default, $config);
-        $this->config = $config;
-        $this->engine = new FenomEngine(new Provider($this->config['view']));
-        $this->engine->setCompileDir($this->config['cache']);
-        if (isset($this->config['options'])) {
-            $this->engine->setOptions($this->config['options']);
-        }
+        $this->config = array_merge($default, $config);
     }
 
     /**
      * 获取底部引擎对象
-     * @return FenomEngine
+     * @return Php
      */
-    public function engine(): FenomEngine
+    public function engine(): Php
     {
-        return $this->engine;
+        return $this;
     }
 
     /**
@@ -76,13 +60,14 @@ class Fenom implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
-        $path = $path . '.' . $this->config['suffix'];
-
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->fetch($path, $this->assigns);
+        extract($this->assigns);
+        $full_path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
+        require_once $full_path;
+        return ob_get_clean();
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
+use Fize\View\ViewHandler;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver\AggregateResolver;

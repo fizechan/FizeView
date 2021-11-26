@@ -1,27 +1,23 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use Pug\Pug as PugEngine;
+use Fize\View\ViewHandler;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
- * Pug
+ * Twig
  *
- * composer require pug-php/pug
+ * composer require twig/twig
  */
-class Pug implements ViewHandler
+class Twig implements ViewHandler
 {
 
     /**
-     * @var PugEngine Pug引擎
+     * @var Environment Twig引擎
      */
     private $engine;
-
-    /**
-     * @var array 配置
-     */
-    private $config;
 
     /**
      * @var array 变量
@@ -34,21 +30,21 @@ class Pug implements ViewHandler
      */
     public function __construct(array $config = [])
     {
-        $default_config = [
-            'basedir' => './view',
-            'cache'   => './cache',
-            'suffix'  => 'pug'
+        $default = [
+            'view'  => './view',
+            'cache' => './runtime'
         ];
-        $config = array_merge($default_config, $config);
-        $this->config = $config;
-        $this->engine = new PugEngine($this->config);
+        $config = array_merge($default, $config);
+        $loader = new FilesystemLoader($config['view']);
+        unset($config['view']);
+        $this->engine = new Environment($loader, $config);
     }
 
     /**
-     * 获取底部引擎对象
-     * @return PugEngine
+     * 获取底层引擎对象
+     * @return Environment
      */
-    public function engine(): PugEngine
+    public function engine(): Environment
     {
         return $this->engine;
     }
@@ -71,13 +67,11 @@ class Pug implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
-        $path = $this->config['basedir'] . '/' . $path . '.' . $this->config['suffix'];
-
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->render($path, $this->assigns);
+        return $this->engine->render($path . '.twig', $this->assigns);
     }
 }

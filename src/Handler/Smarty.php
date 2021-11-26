@@ -1,21 +1,20 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use MtHaml\Environment;
-use MtHaml\Support\Php\Executor;
+use Fize\View\ViewHandler;
+use Smarty as SmartyEngine;
 
 /**
- * MtHaml
+ * Smarty
  *
- * composer require mthaml/mthaml
+ * composer require smarty/smarty
  */
-class MtHaml implements ViewHandler
+class Smarty implements ViewHandler
 {
 
     /**
-     * @var Executor MtHaml引擎
+     * @var SmartyEngine Smarty引擎
      */
     private $engine;
 
@@ -25,32 +24,43 @@ class MtHaml implements ViewHandler
     private $config;
 
     /**
-     * @var array 变量
+     * @var string 模板后缀
      */
-    private $assigns = [];
+    private $suffix;
 
     /**
-     * 初始化
+     * 初始化模板
      * @param array $config 配置
      */
     public function __construct(array $config = [])
     {
         $default = [
-            'view'   => './view',
-            'cache'  => './cache',
-            'suffix' => 'haml'
+            'suffix'       => 'tpl',
+            'debugging'    => false,
+            'caching'      => 0,
+            'cache_dir'    => './runtime/cache/',
+            'compile_dir'  => './runtime/compile/',
+            'config_dir'   => ['./config/'],
+            'plugins_dir'  => [],
+            'template_dir' => ['./view/']
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
-        $haml = new Environment('php');
-        $this->engine = new Executor($haml, $this->config);
+
+        $this->suffix = $config['suffix'];
+        unset($config['suffix']);
+
+        $this->engine = new SmartyEngine();
+        foreach ($config as $key => $value) {
+            $this->engine->$key = $value;
+        }
     }
 
     /**
      * 获取底部引擎对象
-     * @return Executor
+     * @return SmartyEngine
      */
-    public function engine(): Executor
+    public function engine(): SmartyEngine
     {
         return $this->engine;
     }
@@ -62,7 +72,7 @@ class MtHaml implements ViewHandler
      */
     public function assign(string $name, $value)
     {
-        $this->assigns[$name] = $value;
+        $this->engine->assign($name, $value);
     }
 
     /**
@@ -73,12 +83,11 @@ class MtHaml implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
-        $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->render($path, $this->assigns);
+        return $this->engine->fetch($path . '.' . $this->suffix);
     }
 }

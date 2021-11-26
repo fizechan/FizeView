@@ -1,20 +1,24 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use Smarty as SmartyEngine;
+use Fize\View\ViewHandler;
+use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 
 /**
- * Smarty
+ * Volt
  *
- * composer require smarty/smarty
+ * Volt引擎是Phalcon使用的模板引擎，由C语言编写，需要安装并开启该扩展
+ * @see https://docs.phalcon.io/4.0/zh-cn/installation
  */
-class Smarty implements ViewHandler
+class Volt implements ViewHandler
 {
 
+    private $view;
+
     /**
-     * @var SmartyEngine Smarty引擎
+     * @var VoltEngine Volt引擎
      */
     private $engine;
 
@@ -24,43 +28,33 @@ class Smarty implements ViewHandler
     private $config;
 
     /**
-     * @var string 模板后缀
+     * @var array 变量
      */
-    private $suffix;
+    private $assigns = [];
 
     /**
-     * 初始化模板
+     * 初始化
      * @param array $config 配置
      */
     public function __construct(array $config = [])
     {
         $default = [
-            'suffix'       => 'tpl',
-            'debugging'    => false,
-            'caching'      => 0,
-            'cache_dir'    => './runtime/cache/',
-            'compile_dir'  => './runtime/compile/',
-            'config_dir'   => ['./config/'],
-            'plugins_dir'  => [],
-            'template_dir' => ['./view/']
+            'view'   => './view',
+            'suffix' => 'volt',
+            'path'   => './cache'
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
-
-        $this->suffix = $config['suffix'];
-        unset($config['suffix']);
-
-        $this->engine = new SmartyEngine();
-        foreach ($config as $key => $value) {
-            $this->engine->$key = $value;
-        }
+        $this->view = new View();
+        $this->engine = new VoltEngine($this->view);
+        $this->engine->setOptions($this->config);
     }
 
     /**
      * 获取底部引擎对象
-     * @return SmartyEngine
+     * @return VoltEngine
      */
-    public function engine(): SmartyEngine
+    public function engine()
     {
         return $this->engine;
     }
@@ -72,7 +66,7 @@ class Smarty implements ViewHandler
      */
     public function assign(string $name, $value)
     {
-        $this->engine->assign($name, $value);
+        $this->assigns[$name] = $value;
     }
 
     /**
@@ -83,11 +77,13 @@ class Smarty implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
+        $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
+
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->fetch($path . '.' . $this->suffix);
+        return $this->engine->render($path, $this->assigns);
     }
 }

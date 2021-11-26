@@ -1,24 +1,20 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use Phalcon\Mvc\View;
-use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+use Fize\View\ViewHandler;
+use Liquid\Template;
 
 /**
- * Volt
+ * Liquid
  *
- * Volt引擎是Phalcon使用的模板引擎，由C语言编写，需要安装并开启该扩展
- * @see https://docs.phalcon.io/4.0/zh-cn/installation
+ * composer require liquid/liquid
  */
-class Volt implements ViewHandler
+class Liquid implements ViewHandler
 {
 
-    private $view;
-
     /**
-     * @var VoltEngine Volt引擎
+     * @var Template Liquid引擎
      */
     private $engine;
 
@@ -40,21 +36,18 @@ class Volt implements ViewHandler
     {
         $default = [
             'view'   => './view',
-            'suffix' => 'volt',
-            'path'   => './cache'
+            'suffix' => 'tpl'
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
-        $this->view = new View();
-        $this->engine = new VoltEngine($this->view);
-        $this->engine->setOptions($this->config);
+        $this->engine = new Template($this->config['view']);
     }
 
     /**
      * 获取底部引擎对象
-     * @return VoltEngine
+     * @return Template
      */
-    public function engine()
+    public function engine(): Template
     {
         return $this->engine;
     }
@@ -77,13 +70,14 @@ class Volt implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
-        $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
+        $path = $this->config['view'] . DIRECTORY_SEPARATOR . $path . '.' . $this->config['suffix'];
 
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->render($path, $this->assigns);
+        $this->engine->parse(file_get_contents($path));
+        return $this->engine->render($this->assigns);
     }
 }

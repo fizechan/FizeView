@@ -2,7 +2,7 @@
 
 require_once "../../../vendor/autoload.php";
 
-use fize\view\View;
+use Fize\View\View;
 
 $config = [
     'tpl_dir'   => '../view/',

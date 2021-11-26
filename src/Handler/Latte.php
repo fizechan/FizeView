@@ -1,20 +1,20 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use PHPTAL as PhptalEngine;
+use Fize\View\ViewHandler;
+use Latte\Engine;
 
 /**
- * Phptal
+ * Latte
  *
- * composer require phptal/phptal
+ * composer require latte/latte
  */
-class Phptal implements ViewHandler
+class Latte implements ViewHandler
 {
 
     /**
-     * @var PhptalEngine Phptal引擎
+     * @var Engine Latte引擎
      */
     private $engine;
 
@@ -36,21 +36,20 @@ class Phptal implements ViewHandler
     {
         $default = [
             'view'   => './view',
-            'cache'  => './cache',
-            'suffix' => 'xhtml'
+            'cache'  => './runtime/',
+            'suffix' => 'latte'
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
-        $this->engine = new PhptalEngine();
-
-        $this->engine->setPhpCodeDestination($this->config['cache']);
+        $this->engine = new Engine();
+        $this->engine->setTempDirectory($this->config['cache']);
     }
 
     /**
      * 获取底部引擎对象
-     * @return PhptalEngine
+     * @return Engine
      */
-    public function engine(): PhptalEngine
+    public function engine(): Engine
     {
         return $this->engine;
     }
@@ -80,10 +79,6 @@ class Phptal implements ViewHandler
                 $this->assign($name, $value);
             }
         }
-        $this->engine->setTemplate($path);
-        foreach ($this->assigns as $name => $value) {
-            $this->engine->set($name, $value);
-        }
-        return $this->engine->execute();
+        return $this->engine->renderToString($path, $this->assigns);
     }
 }

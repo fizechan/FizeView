@@ -1,20 +1,20 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use Rain\Tpl;
+use Fize\View\ViewHandler;
+use PHPTAL as PhptalEngine;
 
 /**
- * RainTPL
+ * Phptal
  *
- * composer require rain/raintpl
+ * composer require phptal/phptal
  */
-class RainTPL implements ViewHandler
+class Phptal implements ViewHandler
 {
 
     /**
-     * @var Tpl RainTPL引擎
+     * @var PhptalEngine Phptal引擎
      */
     private $engine;
 
@@ -24,26 +24,33 @@ class RainTPL implements ViewHandler
     private $config;
 
     /**
+     * @var array 变量
+     */
+    private $assigns = [];
+
+    /**
      * 初始化
      * @param array $config 配置
      */
     public function __construct(array $config = [])
     {
-        $default_config = [
-            'tpl_dir'   => './view',
-            'cache_dir' => './cache',
+        $default = [
+            'view'   => './view',
+            'cache'  => './cache',
+            'suffix' => 'xhtml'
         ];
-        $config = array_merge($default_config, $config);
+        $config = array_merge($default, $config);
         $this->config = $config;
-        Tpl::configure($this->config);
-        $this->engine = new Tpl();
+        $this->engine = new PhptalEngine();
+
+        $this->engine->setPhpCodeDestination($this->config['cache']);
     }
 
     /**
      * 获取底部引擎对象
-     * @return Tpl
+     * @return PhptalEngine
      */
-    public function engine(): Tpl
+    public function engine(): PhptalEngine
     {
         return $this->engine;
     }
@@ -55,7 +62,7 @@ class RainTPL implements ViewHandler
      */
     public function assign(string $name, $value)
     {
-        $this->engine->assign($name, $value);
+        $this->assigns[$name] = $value;
     }
 
     /**
@@ -66,11 +73,17 @@ class RainTPL implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
+        $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
+
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->draw($path, true);
+        $this->engine->setTemplate($path);
+        foreach ($this->assigns as $name => $value) {
+            $this->engine->set($name, $value);
+        }
+        return $this->engine->execute();
     }
 }

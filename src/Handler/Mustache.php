@@ -1,21 +1,21 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use Blitz as BlitzEngine;
-use fize\view\ViewHandler;
+use Fize\View\ViewHandler;
+use Mustache_Engine;
+use Mustache_Loader_FilesystemLoader;
 
 /**
- * Blitz
+ * Mustache
  *
- * 需要编译Blitz并启用该扩展
- * @see  http://alexeyrybak.com/blitz/blitz_en.html
+ * composer require mustache/mustache
  */
-class Blitz implements ViewHandler
+class Mustache implements ViewHandler
 {
 
     /**
-     * @var BlitzEngine Blitz引擎
+     * @var Mustache_Engine Mustache引擎
      */
     private $engine;
 
@@ -36,20 +36,24 @@ class Blitz implements ViewHandler
     public function __construct(array $config = [])
     {
         $default = [
-            'view'   => './view',
-            'suffix' => 'tpl',
+            'view'  => './view',
+            'cache' => './cache'
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
 
-        $this->engine = new BlitzEngine();
+        $engine_config = [
+            'cache'  => $this->config['cache'],
+            'loader' => new Mustache_Loader_FilesystemLoader($this->config['view'])
+        ];
+        $this->engine = new Mustache_Engine($engine_config);
     }
 
     /**
      * 获取底部引擎对象
-     * @return BlitzEngine
+     * @return Mustache_Engine
      */
-    public function engine(): BlitzEngine
+    public function engine(): Mustache_Engine
     {
         return $this->engine;
     }
@@ -77,10 +81,7 @@ class Blitz implements ViewHandler
                 $this->assign($name, $value);
             }
         }
-        $this->engine->load(file_get_contents($this->config['view'] . $path . '.' . $this->config['suffix']));
-        if ($this->assigns) {
-            $this->engine->set($this->assigns);
-        }
-        return $this->engine->parse();
+        $tpl = $this->engine->loadTemplate($path);
+        return $tpl->render($this->assigns);
     }
 }

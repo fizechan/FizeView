@@ -1,21 +1,20 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use Foil\Engine;
-use Foil\Foil as FoilEngine;
+use Fize\View\ViewHandler;
+use Rain\Tpl;
 
 /**
- * Foil
+ * RainTPL
  *
- * composer require foil/foil
+ * composer require rain/raintpl
  */
-class Foil implements ViewHandler
+class RainTPL implements ViewHandler
 {
 
     /**
-     * @var Engine Foil引擎
+     * @var Tpl RainTPL引擎
      */
     private $engine;
 
@@ -25,26 +24,26 @@ class Foil implements ViewHandler
     private $config;
 
     /**
-     * @var array 变量
-     */
-    private $assigns = [];
-
-    /**
      * 初始化
      * @param array $config 配置
      */
     public function __construct(array $config = [])
     {
+        $default_config = [
+            'tpl_dir'   => './view',
+            'cache_dir' => './cache',
+        ];
+        $config = array_merge($default_config, $config);
         $this->config = $config;
-        $foil = FoilEngine::boot($this->config);
-        $this->engine = $foil->engine();
+        Tpl::configure($this->config);
+        $this->engine = new Tpl();
     }
 
     /**
      * 获取底部引擎对象
-     * @return Engine
+     * @return Tpl
      */
-    public function engine(): Engine
+    public function engine(): Tpl
     {
         return $this->engine;
     }
@@ -56,7 +55,7 @@ class Foil implements ViewHandler
      */
     public function assign(string $name, $value)
     {
-        $this->assigns[$name] = $value;
+        $this->engine->assign($name, $value);
     }
 
     /**
@@ -72,6 +71,6 @@ class Foil implements ViewHandler
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->render($path, $this->assigns);
+        return $this->engine->draw($path, true);
     }
 }

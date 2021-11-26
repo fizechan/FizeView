@@ -1,20 +1,21 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use Liquid\Template;
+use Fize\View\ViewHandler;
+use Foil\Engine;
+use Foil\Foil as FoilEngine;
 
 /**
- * Liquid
+ * Foil
  *
- * composer require liquid/liquid
+ * composer require foil/foil
  */
-class Liquid implements ViewHandler
+class Foil implements ViewHandler
 {
 
     /**
-     * @var Template Liquid引擎
+     * @var Engine Foil引擎
      */
     private $engine;
 
@@ -34,20 +35,16 @@ class Liquid implements ViewHandler
      */
     public function __construct(array $config = [])
     {
-        $default = [
-            'view'   => './view',
-            'suffix' => 'tpl'
-        ];
-        $config = array_merge($default, $config);
         $this->config = $config;
-        $this->engine = new Template($this->config['view']);
+        $foil = FoilEngine::boot($this->config);
+        $this->engine = $foil->engine();
     }
 
     /**
      * 获取底部引擎对象
-     * @return Template
+     * @return Engine
      */
-    public function engine(): Template
+    public function engine(): Engine
     {
         return $this->engine;
     }
@@ -70,14 +67,11 @@ class Liquid implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
-        $path = $this->config['view'] . DIRECTORY_SEPARATOR . $path . '.' . $this->config['suffix'];
-
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        $this->engine->parse(file_get_contents($path));
-        return $this->engine->render($this->assigns);
+        return $this->engine->render($path, $this->assigns);
     }
 }

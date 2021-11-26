@@ -1,6 +1,6 @@
 <?php
 
-namespace fize\view;
+namespace Fize\View;
 
 /**
  * 视图工厂

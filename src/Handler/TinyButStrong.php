@@ -1,20 +1,21 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use League\Plates\Engine;
+use clsTinyButStrong;
+use Fize\View\ViewHandler;
 
 /**
- * Plates
+ * TinyButStrong
  *
- * composer require league/plates:v4.0.0-alpha
+ * composer require tinybutstrong/tinybutstrong
+ * @todo 视图文件尚未调整完毕
  */
-class Plates implements ViewHandler
+class TinyButStrong implements ViewHandler
 {
 
     /**
-     * @var Engine Plates引擎
+     * @var clsTinyButStrong TinyButStrong引擎
      */
     private $engine;
 
@@ -24,29 +25,25 @@ class Plates implements ViewHandler
     private $config;
 
     /**
-     * @var array 变量
-     */
-    private $assigns = [];
-
-    /**
      * 初始化
      * @param array $config 配置
      */
     public function __construct(array $config = [])
     {
-        $default = [
-            'view' => './view'
+        $default_config = [
+            'view'   => './view',
+            'suffix' => 'htm'
         ];
-        $config = array_merge($default, $config);
+        $config = array_merge($default_config, $config);
         $this->config = $config;
-        $this->engine = Engine::create($this->config['view']);
+        $this->engine = new clsTinyButStrong($this->config);
     }
 
     /**
      * 获取底部引擎对象
-     * @return Engine
+     * @return clsTinyButStrong
      */
-    public function engine(): Engine
+    public function engine(): clsTinyButStrong
     {
         return $this->engine;
     }
@@ -58,7 +55,7 @@ class Plates implements ViewHandler
      */
     public function assign(string $name, $value)
     {
-        $this->assigns[$name] = $value;
+        $GLOBALS[$name] = $value;
     }
 
     /**
@@ -69,11 +66,14 @@ class Plates implements ViewHandler
      */
     public function render(string $path, array $assigns = []): string
     {
+        $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
+        $this->engine->LoadTemplate($path);
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->render($path, $this->assigns);
+        $this->engine->Show();
+        return ob_get_clean();
     }
 }

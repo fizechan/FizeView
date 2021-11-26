@@ -1,20 +1,21 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
-use fize\view\ViewHandler;
-use Latte\Engine;
+use Fize\View\ViewHandler;
+use MtHaml\Environment;
+use MtHaml\Support\Php\Executor;
 
 /**
- * Latte
+ * MtHaml
  *
- * composer require latte/latte
+ * composer require mthaml/mthaml
  */
-class Latte implements ViewHandler
+class MtHaml implements ViewHandler
 {
 
     /**
-     * @var Engine Latte引擎
+     * @var Executor MtHaml引擎
      */
     private $engine;
 
@@ -36,20 +37,20 @@ class Latte implements ViewHandler
     {
         $default = [
             'view'   => './view',
-            'cache'  => './runtime/',
-            'suffix' => 'latte'
+            'cache'  => './cache',
+            'suffix' => 'haml'
         ];
         $config = array_merge($default, $config);
         $this->config = $config;
-        $this->engine = new Engine();
-        $this->engine->setTempDirectory($this->config['cache']);
+        $haml = new Environment('php');
+        $this->engine = new Executor($haml, $this->config);
     }
 
     /**
      * 获取底部引擎对象
-     * @return Engine
+     * @return Executor
      */
-    public function engine(): Engine
+    public function engine(): Executor
     {
         return $this->engine;
     }
@@ -73,12 +74,11 @@ class Latte implements ViewHandler
     public function render(string $path, array $assigns = []): string
     {
         $path = $this->config['view'] . '/' . $path . '.' . $this->config['suffix'];
-
         if ($assigns) {
             foreach ($assigns as $name => $value) {
                 $this->assign($name, $value);
             }
         }
-        return $this->engine->renderToString($path, $this->assigns);
+        return $this->engine->render($path, $this->assigns);
     }
 }

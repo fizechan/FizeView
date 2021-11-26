@@ -1,12 +1,12 @@
 <?php
 
-namespace fize\view\handler;
+namespace Fize\View\Handler;
 
 use CodeIgniter\Autoloader\Autoloader;
 use CodeIgniter\Autoloader\FileLocator;
 use CodeIgniter\Log\Logger;
 use CodeIgniter\View\Parser;
-use fize\view\ViewHandler;
+use Fize\View\ViewHandler;
 use InvalidArgumentException;
 use Laminas\Escaper\Escaper;
 
