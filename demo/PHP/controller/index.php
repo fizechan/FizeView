@@ -9,6 +9,6 @@ $config = [
     'suffix' => 'tpl'
 ];
 
-new View('Php', $config);
+new View('PHP', $config);
 View::assign('name', '陈峰展');
 echo View::render('index');

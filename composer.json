@@ -9,7 +9,13 @@
     }
   ],
   "config": {
-    "allow-plugins": false
+    "allow-plugins": false,
+    "audit": {
+      "ignore": [
+        "PKSA-7k8y-pxvq-y5kc"
+      ]
+    },
+    "preferred-install": "dist"
   },
   "autoload": {
     "psr-4": {

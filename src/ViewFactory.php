@@ -16,7 +16,7 @@ class ViewFactory
      */
     public static function create(string $handler, array $config = []): ViewHandler
     {
-        $class = '\\' . __NAMESPACE__ . '\\handler\\' . $handler;
+        $class = '\\' . __NAMESPACE__ . '\\Handler\\' . $handler;
         return new $class($config);
     }
 }
