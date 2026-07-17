@@ -38,7 +38,7 @@
     "laminas/laminas-servicemanager": "^3.4.0",
     "laminas/laminas-view": "^2.11.0",
     "latte/latte": "^2.11.7",
-    "league/plates": "^4.0@alpha",
+    "league/plates": "^3.6.0",
     "liquid/liquid": "^1.4.0",
     "mthaml/mthaml": "^1.8.0",
     "mustache/mustache": "^2.13.0",
