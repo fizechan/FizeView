@@ -35,9 +35,9 @@ class PHP implements ViewHandler
 
     /**
      * 获取底部引擎对象
-     * @return Php
+     * @return PHP
      */
-    public function engine(): Php
+    public function engine(): PHP
     {
         return $this;
     }
