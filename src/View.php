@@ -77,7 +77,7 @@ class View
      * @param array       $assigns 指定变量赋值
      * @return string
      */
-    public static function render(string $path = null, array $assigns = []): string
+    public static function render(?string $path = null, array $assigns = []): string
     {
         if ($path) {
             self::path($path);
